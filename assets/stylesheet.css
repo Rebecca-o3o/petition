@@ -1,0 +1,48 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    /*border: 2px dotted red;*/
+    font-family: Verdana, sans-serif;
+}
+
+body {
+    background-color: MediumSeaGreen;
+}
+
+h1 {
+    padding: 30px 10px;
+    text-transform: uppercase;
+}
+
+section {
+    padding: 20px 10px;
+}
+
+img {
+    max-height: 200px;
+}
+
+label {
+    font-size: 12px;
+}
+
+canvas, input {
+    border: 1px solid grey;
+    background: FloralWhite;
+    text-align: left;
+}
+
+button {
+    height: 40px;
+    width: 400px;
+    border-radius: 25px;
+    border: 1px solid grey;
+    background: black;
+    text-transform: uppercase;
+    color: FloralWhite;
+}
+
+.required{
+    color: red;
+}
