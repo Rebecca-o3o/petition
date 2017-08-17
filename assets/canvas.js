@@ -42,7 +42,15 @@
         mouseDownStatus = false;
     });
 
-    //
+    //store signature image data in hidden input on submit click:
+    var storeSignature = function(){
+        var dataURL = $('#canv')[0].toDataURL();
+        console.log(dataURL);
+    };
+
+    $('#submit-btn').on("click", function(){
+        storeSignature();
+    });
 
 
 }());
