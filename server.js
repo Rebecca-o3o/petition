@@ -1,8 +1,8 @@
 //npm modules:
 const bodyParser = require('body-parser');
 const express = require("express");
-var app = express();
-var hb = require('express-handlebars');
+const app = express();
+const hb = require('express-handlebars');
 
 // boilerplate to use handlebars as template engine for express
 app.engine('handlebars', hb());
@@ -23,9 +23,11 @@ app.get("/", function (req, res){
     });
 });
 
-// app.post("/", function (req, res){
-//     console.log()
-// });
+app.post("/", function (req, res){
+    console.log(req.body);
+    console.log(res);
+    res.redirect("/thanks");
+});
 
 app.get("/thanks", function (req, res){
     res.render("thanks", {
