@@ -45,7 +45,9 @@
     //store signature image data in hidden input on submit click:
     var storeSignature = function(){
         var dataURL = $('#canv')[0].toDataURL();
-        console.log(dataURL);
+        // console.log(dataURL);
+        $('#sig-inpt').html(dataURL);
+        // console.log($('#sig-inpt'));
     };
 
     $('#submit-btn').on("click", function(){
