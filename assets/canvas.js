@@ -1,41 +1,48 @@
-var pos = { x: 0, y: 0 };
-var mouseDownStatus = false;
+(function() {
 
-var setPosition = function (e) {
-    pos.x = e.offsetX;
-    pos.y = e.offsetY;
-};
+    var pos = { x: 0, y: 0 };
+    var mouseDownStatus = false;
 
-var draw = function(e){
-    // reference to html:
-    var context = $('#canv')[0].getContext('2d');
+    var setPosition = function (e) {
+        pos.x = e.offsetX;
+        pos.y = e.offsetY;
+    };
 
-    //prepare strokes:
-    context.strokeStyle = 'black';
-    context.lineWidth = '3';
-    context.lineCap = 'round';
+    var draw = function(e){
+        // reference to html:
+        var context = $('#canv')[0].getContext('2d');
 
-    //begin:
-    context.beginPath();
+        //prepare strokes:
+        context.strokeStyle = 'black';
+        context.lineWidth = '3';
+        context.lineCap = 'round';
 
-    context.moveTo(pos.x, pos.y);           // from
-    setPosition(e);                         // check new position
-    context.lineTo(pos.x, pos.y);           // to
-    context.stroke();                       // draw it!
-};
+        //begin:
+        context.beginPath();
 
-//log mouse positions on mousedown:
-$('#canv').mousedown(setPosition, function(e){
-    mouseDownStatus = true;
-    setPosition(e);
-});
+        context.moveTo(pos.x, pos.y);           // from
+        setPosition(e);                         // check new position
+        context.lineTo(pos.x, pos.y);           // to
+        context.stroke();                       // draw it!
+    };
 
-$('#canv').mousemove(setPosition, function(e){
-    if (mouseDownStatus) {
-        draw(e);
-    }
-});
+    //log mouse positions on mousedown:
+    $('#canv').mousedown(setPosition, function(e){
+        mouseDownStatus = true;
+        setPosition(e);
+    });
 
-$('#canv').mouseup(function(){
-    mouseDownStatus = false;
-});
+    $('#canv').mousemove(setPosition, function(e){
+        if (mouseDownStatus) {
+            draw(e);
+        }
+    });
+
+    $('#canv').mouseup(function(){
+        mouseDownStatus = false;
+    });
+
+    //
+
+
+}());
