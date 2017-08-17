@@ -9,22 +9,23 @@
 
 <p>Sign our petition and rescue a shrimp!</p>
 
-<section>
-    <label>First Name <span class="required">*</span></label>
-    <input type="text" name="first">
+<form action="/" method="post">
+    <section>
+        <label>First Name <span class="required">*</span></label>
+        <input type="text" name="first">
 
-    <label>Last Name <span class="required">*</span></label>
-    <input type="text" name="last">
+        <label>Last Name <span class="required">*</span></label>
+        <input type="text" name="last">
 
-</section>
+    </section>
 
-<section>
-    <label>Sign here<span class="required">*</span>
-    <canvas id="canv" width="400" height="50"></canvas>
-    <input id="sig-inpt" type="hidden" name="signature" formaction="">
-</section>
+    <section>
+        <label>Sign here<span class="required">*</span>
+        <canvas id="canv" width="400" height="50"></canvas>
+        <input id="sig-inpt" type="hidden" name="signature" formaction="">
+    </section>
 
-<button id="submit-btn" type="button" name="submit">Make a change</button>
-
+    <button id="submit-btn" type="submit" name="submit">Make a change</button>
+</form>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="canvas.js"></script>
