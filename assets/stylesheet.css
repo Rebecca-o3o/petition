@@ -18,6 +18,9 @@ h1 {
 section {
     padding: 20px 10px;
 }
+div {
+    text-align: left;
+}
 
 img {
     max-height: 200px;
@@ -33,6 +36,11 @@ canvas, input {
     text-align: left;
 }
 
+input {
+    height: 25px;
+    width: 150px;
+}
+
 button {
     height: 40px;
     width: 400px;
@@ -43,6 +51,14 @@ button {
     color: FloralWhite;
 }
 
-.required{
+.required {
     color: red;
+}
+
+.name-input {
+    display: inline;
+}
+
+#canv {
+    cursor: url(./pencil.cur), auto;
 }
