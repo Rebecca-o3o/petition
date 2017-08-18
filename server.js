@@ -4,6 +4,9 @@ const express = require("express");
 const app = express();
 const hb = require('express-handlebars');
 
+//own modules:
+const dbQuery = require('./database');
+
 // boilerplate to use handlebars as template engine for express
 app.engine('handlebars', hb());
 app.set('view engine', 'handlebars');
@@ -24,8 +27,8 @@ app.get("/", function (req, res){
 });
 
 app.post("/", function (req, res){
-    console.log(req.body);
-    console.log(res);
+    var queryValues = [req.body.first, req.body.last, req.body.signature];
+    dbQuery.addSignature(queryValues);
     res.redirect("/thanks");
 });
 

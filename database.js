@@ -2,26 +2,25 @@
 const spicedPg = require('spiced-pg');
 
 //get database username and password
-const {dbUser,dbPass} = require('./secrets');
+const {DBuser,DBpass} = require('./secrets');
+
+const db = spicedPg(`postgres:${DBuser}:${DBpass}@localhost:5432/signers`);
 
 
-const db = spicedPg(`postgres:${dbUser}:${dbPass}@localhost:5432/signers`);
+// insert query to database with preventing SQL injection (pg module)
+var addSignature = function (queryValues){
+    const queryText = 'INSERT INTO signers (first, last, signature) VALUES ($1, $2, $3) RETURNING id';
+    //timestamp inserted automatically
+    return db.query(queryText, queryValues).then(function(result) {
+        // result is an js array of objects
+        console.log("RESULT ROWS:" + result.rows);
+    }).catch(e => console.error(e.stack));
+};
 
-// general query to database
-db.query('SELECT * FROM signers').then(function(results) {
-    console.log(results.rows);
-}).catch(function(err) {
-    console.log(err);
-});
+module.exports.addSignature = addSignature;
 
-
-
-// prevent SQL injection
-// ======= lecture notes ====//
-// var universe = 'DC';
-// var id = 2;
-//
-// db.query('select * from superheroes WHERE universe = $1 AND id = $2', [universe, id escape SQL]).then(function(result){
-// console.log(result);
-// })
-// results: is an js array of objects
+// db.query('SELECT * FROM signers').then(function(results) {
+//     console.log(results.rows);
+// }).catch(function(err) {
+//     console.log(err);
+// });
