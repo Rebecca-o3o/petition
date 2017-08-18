@@ -44,6 +44,13 @@ app.get("/signers", function (req, res){
     });
 });
 
+app.use((req,res) => {
+    res.status(404);
+    res.render("404", {
+        layout: "main"
+    });
+});
+
 //log server start
 app.listen(8080, ()=> {
     console.log ("listening on port 8080");
