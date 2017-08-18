@@ -17,10 +17,26 @@ var addSignature = function (queryValues){
     }).catch(e => console.error(e.stack));
 };
 
-module.exports.addSignature = addSignature;
+// get sum of signers
+var amountOfSigners = function(){
+    db.query('SELECT count (*) FROM signers').then(function(results) {
+        console.log(results.rows);
+    }).catch(function(err) {
+        console.log(err);
+    });
+};
 
-// db.query('SELECT * FROM signers').then(function(results) {
-//     console.log(results.rows);
-// }).catch(function(err) {
-//     console.log(err);
-// });
+// get list of signers
+var listSigners = function(){
+    db.query('SELECT first, last FROM signers').then(function(results) {
+        console.log(results.rows);
+    }).catch(function(err) {
+        console.log(err);
+    });
+};
+
+module.exports = {
+    addSignature,
+    amountOfSigners,
+    listSigners
+};
