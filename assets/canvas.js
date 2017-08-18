@@ -46,7 +46,7 @@
     var storeSignature = function(){
         var dataURL = $('#canv')[0].toDataURL();
         // console.log(dataURL);
-        $('#sig-inpt').html(dataURL);
+        $('#sig-inpt').val(dataURL);
         // console.log($('#sig-inpt'));
     };
 
