@@ -1,6 +1,6 @@
 //npm modules:
 const bodyParser = require('body-parser');
-const express = require("express");
+const express = require('express');
 const app = express();
 const hb = require('express-handlebars');
 
@@ -39,8 +39,16 @@ app.get("/thanks", function (req, res){
 });
 
 app.get("/signers", function (req, res){
-    res.render("signers", {
-        layout: "main"
+
+    //respond with promise from query
+    dbQuery.listSigners().then((result)=>{
+        res.render("signers", {
+            layout: "main",
+            signers: result.rows
+        });
+    }).catch(function(err){
+        console.log(err);
+        res.send("Couldn't load list if Signers");
     });
 });
 

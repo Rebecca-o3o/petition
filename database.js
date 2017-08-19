@@ -19,8 +19,9 @@ var addSignature = function (queryValues){
 
 // get sum of signers
 var amountOfSigners = function(){
-    db.query('SELECT count (*) FROM signers').then(function(results) {
-        console.log(results.rows);
+    const queryText = 'SELECT count (*) FROM signers';
+    return db.query(queryText).then(function(result) {
+        console.log(result.rows);
     }).catch(function(err) {
         console.log(err);
     });
@@ -28,11 +29,8 @@ var amountOfSigners = function(){
 
 // get list of signers
 var listSigners = function(){
-    db.query('SELECT first, last FROM signers').then(function(results) {
-        console.log(results.rows);
-    }).catch(function(err) {
-        console.log(err);
-    });
+    const queryText = 'SELECT first, last FROM signers';
+    return db.query(queryText);
 };
 
 module.exports = {
