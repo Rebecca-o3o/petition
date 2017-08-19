@@ -28,8 +28,18 @@ app.get("/", function (req, res){
 
 app.post("/", function (req, res){
     var queryValues = [req.body.first, req.body.last, req.body.signature];
-    dbQuery.addSignature(queryValues);
-    res.redirect("/thanks");
+    //show error message if inputs empty
+    if (!req.body.first && !req.body.last && !req.body.signature){
+        res.render("home", {
+            layout: "main",
+            inputError: true
+        });
+    }
+    //add input to database
+    else {
+        dbQuery.addSignature(queryValues);
+        res.redirect("/thanks");
+    }
 });
 
 app.get("/thanks", function (req, res){

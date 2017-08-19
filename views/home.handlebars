@@ -9,20 +9,24 @@
 
 <p>Sign our petition and rescue a shrimp!</p>
 
+{{#if inputError}}
+<p class="required">Oh no! Something went wrong. Please try again!</p>
+{{/if}}
+
 <form action="/" method="post">
     <section>
         <label>First Name <span class="required">*</span></label>
-        <input type="text" name="first">
+        <input type="text" name="first" required>
 
         <label>Last Name <span class="required">*</span></label>
-        <input type="text" name="last">
+        <input type="text" name="last" required>
 
     </section>
 
     <section>
         <label>Sign here<span class="required">*</span>
         <canvas id="canv" width="400" height="50"></canvas>
-        <input id="sig-inpt" type="hidden" name="signature" formaction="">
+        <input id="sig-inpt" type="hidden" name="signature" required>
     </section>
 
     <button id="submit-btn" type="submit" name="submit">Make a change</button>

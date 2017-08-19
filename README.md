@@ -10,7 +10,7 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 - [ ] set cookie
 - [x] store signature
 - [ ] display signature
-- [ ] error message on submit without required fields
+- [x] error message on submit without required fields
 
 - [x] screen 1 - petition page
 - [x] screen 1 - canvas
@@ -23,7 +23,7 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 - [x] screen 3 - display signers list
 
 ### Optional
-- store $('#canv')toDataURL(); in different color
+- store ```$('#canv')toDataURL();``` in different color
 - responsive designs
 - shrimp video
 - [x] include number of signers
@@ -31,4 +31,4 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 
 ### Known Bugs
 - canvas.js public
-- posts are possible without input
+- signature can be empty
