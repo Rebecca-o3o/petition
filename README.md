@@ -6,9 +6,11 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 
 ## TODO
 - [x] database setup 'signers'
-- [ ] database fill on POST
+- [x] database fill on POST
 - [ ] set cookie
-- [ ] store signature
+- [x] store signature
+- [ ] display signature
+- [ ] error message on submit without required fields
 
 - [x] screen 1 - petition page
 - [x] screen 1 - canvas
@@ -18,13 +20,14 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 - [x] screen 2 - link to signers
 
 - [x] screen 3 - signers page
-- [ ] screen 3 - display signers list
+- [x] screen 3 - display signers list
 
 ### Optional
 - store $('#canv')toDataURL(); in different color
 - responsive designs
 - shrimp video
-- include number of signers
+- [x] include number of signers
+- show timestamp
 
 ### Known Bugs
 - canvas.js public

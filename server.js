@@ -33,8 +33,17 @@ app.post("/", function (req, res){
 });
 
 app.get("/thanks", function (req, res){
-    res.render("thanks", {
-        layout: "main"
+
+    //respond with promise from query
+    dbQuery.amountOfSigners().then((result)=>{
+        // console.log(result.rows[0].count);
+        res.render("thanks", {
+            layout: "main",
+            num: result.rows[0].count
+        });
+    }).catch((err)=>{
+        console.log(err);
+        res.send("Couldn't load number of signers");
     });
 });
 
@@ -42,13 +51,14 @@ app.get("/signers", function (req, res){
 
     //respond with promise from query
     dbQuery.listSigners().then((result)=>{
+        // console.log(result);
         res.render("signers", {
             layout: "main",
             signers: result.rows
         });
     }).catch(function(err){
         console.log(err);
-        res.send("Couldn't load list if Signers");
+        res.send("Couldn't load list of signers");
     });
 });
 
