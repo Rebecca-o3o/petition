@@ -1,0 +1,33 @@
+{{> weheartshrimps}}
+{{> appeal}}
+
+<form action="/register" method="post" class="register-form">
+    <ul>
+        <li>
+            <label>First Name <span class="required">*</span></label>
+            <input type="text" name="first" required>
+        </li>
+
+        <li>
+            <label>Last Name <span class="required">*</span></label>
+            <input type="text" name="last" required>
+        </li>
+
+        <li>
+            <label>Email <span class="required">*</span></label>
+            <input type="text" name="last" required>
+        </li>
+
+        <li>
+            <label>Password <span class="required">*</span></label>
+            <input type="text" name="last" required>
+        </li>
+
+    </ul>
+
+    <button id="submit-btn" type="submit" name="submit">Sign Up</button>
+</form>
+
+<p>If you are already a member, please <a href="/login">log in</a>.</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

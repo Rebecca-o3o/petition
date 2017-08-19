@@ -21,7 +21,7 @@ app.use(bodyParser.urlencoded({
 
 //routes
 app.get("/", function (req, res){
-    res.render("home", {
+    res.render("register", {
         layout: "main"
     });
 });
