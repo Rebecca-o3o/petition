@@ -26,6 +26,12 @@ app.get("/", function (req, res){
     });
 });
 
+app.get("/login", function (req, res){
+    res.render("login", {
+        layout: "main"
+    });
+});
+
 app.get("/petition", function (req, res){
     res.render("petition", {
         layout: "main"

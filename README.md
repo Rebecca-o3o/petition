@@ -22,6 +22,9 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 - [x] screen 3 - signers page
 - [x] screen 3 - display signers list
 
+- [x] register page
+- [x] login page
+
 ### Optional
 - store ```$('#canv')toDataURL();``` in different color
 - responsive designs
