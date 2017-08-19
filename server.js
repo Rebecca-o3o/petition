@@ -26,11 +26,17 @@ app.get("/", function (req, res){
     });
 });
 
-app.post("/", function (req, res){
+app.get("/petition", function (req, res){
+    res.render("petition", {
+        layout: "main"
+    });
+});
+
+app.post("/petition", function (req, res){
     var queryValues = [req.body.first, req.body.last, req.body.signature];
     //show error message if inputs empty
     if (!req.body.first && !req.body.last && !req.body.signature){
-        res.render("home", {
+        res.render("petition", {
             layout: "main",
             inputError: true
         });
