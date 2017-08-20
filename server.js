@@ -3,9 +3,11 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const app = express();
 const hb = require('express-handlebars');
+const cookieSession = require('cookie-session');
 
 //own modules:
 const dbQuery = require('./database');
+const {cookieSecret} = require('./secrets');
 
 // boilerplate to use handlebars as template engine for express
 app.engine('handlebars', hb());
@@ -13,6 +15,12 @@ app.set('view engine', 'handlebars');
 
 //middleware for static assets
 app.use(express.static('assets'));
+
+//middleware to remember id of row of signer
+app.use(cookieSession({
+    secret: cookieSecret,
+    maxAge: 1000 * 60 * 60 * 24 * 14
+}));
 
 //middleware to use request bodies containing values from user inputs
 app.use(bodyParser.urlencoded({
@@ -35,10 +43,16 @@ app.post("/register", function (req, res){
             inputError: true
         });
     }
-    //add input to users database
+    //add input to users database returning id
     else {
-        dbQuery.addUser(queryValues);
-        res.redirect("/petition");
+        dbQuery.addUser(queryValues).then((result)=>{
+            console.log(result.rows[0].id);
+            req.session.signatureId = result.rows[0].id;
+            res.redirect("/petition");
+        }).catch((err)=>{
+            console.log(err);
+            res.send("Could not add user to users");
+        });
     }
 });
 
