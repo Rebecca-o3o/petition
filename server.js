@@ -93,17 +93,29 @@ app.post("/petition", function (req, res){
 
 app.get("/thanks", function (req, res){
 
-    //respond with promise from query
-    dbQuery.amountOfSigners().then((result)=>{
-        // console.log(result.rows[0].count);
+    var signId=req.session.signerId;
+    dbQuery.displaySignatue(signId).then((result)=>{
+        console.log(result.rows[0].signature);
         res.render("thanks", {
             layout: "main",
-            num: result.rows[0].count
+            sign: result.rows[0].signature
         });
     }).catch((err)=>{
         console.log(err);
-        res.send("Couldn't load number of signers");
+        res.send("Couldn't load signature");
     });
+    //respond with promise from query
+    // dbQuery.amountOfSigners().then((result)=>{
+    //     // console.log(result.rows[0].count);
+    //     res.render("thanks", {
+    //         layout: "main",
+    //         num: result.rows[0].count,
+    //         // sign: result.rows[0].count
+    //     });
+    // }).catch((err)=>{
+    //     console.log(err);
+    //     res.send("Couldn't load number of signers");
+    // });
 });
 
 app.get("/signers", function (req, res){

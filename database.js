@@ -27,8 +27,8 @@ var listSigners = function(){
 };
 
 // get signature from database
-var displaySignatue = function(){
-    const queryText = 'SELECT signature FROM signers WHERE id="Dan Brown"';
+var displaySignatue = function(signId){
+    const queryText = 'SELECT signature FROM signers WHERE id='+ signId;
     return db.query(queryText);
 };
 
