@@ -43,11 +43,11 @@ app.post("/register", function (req, res){
             inputError: true
         });
     }
-    //add input to users database returning id
+    //add input to users database and returning users ID
     else {
         dbQuery.addUser(queryValues).then((result)=>{
-            console.log(result.rows[0].id);
-            req.session.signatureId = result.rows[0].id;
+            console.log("USER ID:", result.rows[0].id);
+            req.session.userId = result.rows[0].id;
             res.redirect("/petition");
         }).catch((err)=>{
             console.log(err);
@@ -77,10 +77,17 @@ app.post("/petition", function (req, res){
             inputError: true
         });
     }
-    //add input to database
+    //add input to database returning signers ID
     else {
-        dbQuery.addSignature(queryValues);
-        res.redirect("/thanks");
+        dbQuery.addSignature(queryValues).then((result)=>{
+            console.log("SIGNERS ID:", result.rows[0].id);
+            req.session.signerId = result.rows[0].id;
+            res.redirect("/thanks");
+        }).catch((err)=>{
+            console.log(err);
+            res.send("Could not add signature to signers");
+        });
+
     }
 });
 

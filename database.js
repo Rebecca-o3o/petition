@@ -11,10 +11,7 @@ const db = spicedPg(`postgres:${DBuser}:${DBpass}@localhost:5432/signers`);
 var addSignature = function (queryValues){
     const queryText = 'INSERT INTO signers (first, last, signature) VALUES ($1, $2, $3) RETURNING id';
     //timestamp inserted automatically
-    return db.query(queryText, queryValues).then(function(result) {
-        // result is an js array of objects
-        console.log("RESULT ROWS:" + result.rows);
-    }).catch(e => console.error(e.stack));
+    return db.query(queryText, queryValues);
 };
 
 // get sum of signers
@@ -29,19 +26,23 @@ var listSigners = function(){
     return db.query(queryText);
 };
 
+// get signature from database
+var displaySignatue = function(){
+    const queryText = 'SELECT signature FROM signers WHERE id="Dan Brown"';
+    return db.query(queryText);
+};
+
 // insert query to users database with preventing SQL injection (pg module)
 var addUser = function (queryValues){
     const queryText = 'INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) RETURNING id';
     //timestamp inserted automatically
-    return db.query(queryText, queryValues).then(function(result) {
-        // result is an js array of objects
-        console.log("RESULT ROWS:" + result.rows);
-    }).catch(e => console.error(e.stack));
+    return db.query(queryText, queryValues);
 };
 
 module.exports = {
     addSignature,
     amountOfSigners,
     listSigners,
+    displaySignatue,
     addUser
 };
