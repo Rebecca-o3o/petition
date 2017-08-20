@@ -6,7 +6,11 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 
 ## TODO
 - [x] database setup 'signers'
-- [x] database fill on POST
+- [x] database signers fill on POST
+
+- [x] database setup 'users'
+- [x] database users fill on POST
+
 - [ ] set cookie
 - [x] store signature
 - [ ] display signature
@@ -31,6 +35,7 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 - shrimp video
 - [x] include number of signers
 - show timestamp
+- use partial for error
 
 ### Known Bugs
 - canvas.js public

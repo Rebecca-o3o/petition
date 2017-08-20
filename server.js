@@ -26,6 +26,22 @@ app.get("/", function (req, res){
     });
 });
 
+app.post("/register", function (req, res){
+    var queryValues = [req.body.first, req.body.last, req.body.email, req.body.password];
+    //show error message if inputs empty
+    if (!req.body.first && !req.body.last && !req.body.email && !req.body.password){
+        res.render("register", {
+            layout: "main",
+            inputError: true
+        });
+    }
+    //add input to users database
+    else {
+        dbQuery.addUser(queryValues);
+        res.redirect("/petition");
+    }
+});
+
 app.get("/login", function (req, res){
     res.render("login", {
         layout: "main"
