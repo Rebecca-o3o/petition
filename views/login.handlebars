@@ -2,6 +2,10 @@
 
 <p>Please log in.</p>
 
+{{#if inputError}}
+{{> error}}
+{{/if}}
+
 <form action="/login" method="post">
     <ul>
         <li>
