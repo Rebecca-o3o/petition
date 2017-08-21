@@ -28,6 +28,12 @@ app.use(bodyParser.urlencoded({
 }));
 
 //routes
+app.get("/video", function (req, res){
+    res.render("register", {
+        layout: "video"
+    });
+});
+
 app.get("/", function (req, res){
     // check if user is logged in
     if (req.session.userId) {
