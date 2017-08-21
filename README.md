@@ -3,6 +3,7 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 
 ## Features
 - style on canvas
+- shrimp video
 
 ## TODO
 - [x] database setup 'signers'
@@ -39,12 +40,14 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 ### Optional
 - store ```$('#canv')toDataURL();``` in different color
 - responsive designs
-- shrimp video
 - [ ] include number of signers
 - show timestamp
+- error message when age not a number
+- error message when login not correctly (user not found pleas register / wrong pw)
 
 ### Known Bugs
 - canvas.js public
 - signature can be empty
 - user can sign twice within same session
 - display thank you page correctly after profile
+- login does't work yet
