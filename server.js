@@ -29,6 +29,17 @@ app.use(bodyParser.urlencoded({
 
 //routes
 app.get("/", function (req, res){
+    // check if user is logged in
+    if (req.session.userId) {
+        console.log("USER EINGELOGGT");
+        res.redirect("/thanks");
+    }
+    else {
+        res.redirect("/register");
+    }
+});
+
+app.get("/register", function (req, res){
     res.render("register", {
         layout: "main"
     });
