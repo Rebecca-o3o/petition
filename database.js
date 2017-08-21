@@ -1,6 +1,8 @@
 //Spiced Academy module which sets up client to talk to DB from node.js
 const spicedPg = require('spiced-pg');
 
+//own modules:
+const {hashPassword,checkPassword} = require('./hashing');
 //get database username and password
 const {DBuser,DBpass} = require('./secrets');
 
@@ -39,10 +41,17 @@ var addUser = function (queryValues){
     return db.query(queryText, queryValues);
 };
 
+// searching for user in users database
+var loginUser = function (){
+    const queryText = 'SELECT email, password FROM users';
+    return db.query(queryText);
+};
+
 module.exports = {
     addSignature,
     amountOfSigners,
     listSigners,
     displaySignatue,
-    addUser
+    addUser,
+    loginUser
 };
