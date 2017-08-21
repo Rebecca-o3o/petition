@@ -63,17 +63,27 @@ app.get("/login", function (req, res){
 });
 
 app.post("/login", function (req, res) {
-    console.log(req.body.email, req.body.password);
-    //check user database against request
-    // if user not matching render error
-    // if matching check if already signed
-    // signed - redirect to thank you
-    // not signed redirect to petition
-    dbQuery.loginUser().then((result)=>{
-        console.log(result);
+    //check users database against request
+    dbQuery.loginUser(req.body.email).then((result)=>{
+        //matching passords
+        if (req.body.password === result.rows[0].password) {
+            console.log("resolved");
+            // check if already signed
+            // signed - redirect to thank you
+            // not signed redirect to petition
+            res.redirect("/petition");
+        }
+        //not matching passwords
+        else {
+            console.log("passwords dont match");
+            res.render("login", {
+                layout: "main",
+                inputError: true
+            });
+        }
+    }).catch((err)=>{
+        console.log(err);
     });
-    //if not already signed
-    res.redirect("/petition");
 });
 
 app.get("/petition", function (req, res){

@@ -41,9 +41,10 @@ var addUser = function (queryValues){
     return db.query(queryText, queryValues);
 };
 
-// searching for user in users database
-var loginUser = function (){
-    const queryText = 'SELECT email, password FROM users';
+// searching for plaintextpassword of user in users database
+var loginUser = function (email){
+    const queryText = "SELECT password FROM users WHERE email='" + email + "'";
+    console.log("!!!!QUERY TEXT HIER:" + queryText);
     return db.query(queryText);
 };
 
