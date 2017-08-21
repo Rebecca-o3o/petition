@@ -62,6 +62,20 @@ app.get("/login", function (req, res){
     });
 });
 
+app.post("/login", function (req, res) {
+    console.log(req.body.email, req.body.password);
+    //check user database against request
+    // if user not matching render error
+    // if matching check if already signed
+    // signed - redirect to thank you
+    // not signed redirect to petition
+    dbQuery.loginUser().then((result)=>{
+        console.log(result);
+    });
+    //if not already signed
+    res.redirect("/petition");
+});
+
 app.get("/petition", function (req, res){
     res.render("petition", {
         layout: "main"
