@@ -48,11 +48,19 @@ var loginUser = function (email){
     return db.query(queryText);
 };
 
+// insert query to user_profiles database with preventing SQL injection (pg module)
+var addUserProfile = function (queryValues){
+    const queryText = 'INSERT INTO user_profiles (age, city, homepage) VALUES ($1, $2, $3) RETURNING user_id';
+    //timestamp inserted automatically
+    return db.query(queryText, queryValues);
+};
+
 module.exports = {
     addSignature,
     amountOfSigners,
     listSigners,
     displaySignatue,
     addUser,
-    loginUser
+    loginUser,
+    addUserProfile
 };

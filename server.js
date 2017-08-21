@@ -48,7 +48,7 @@ app.post("/register", function (req, res){
         dbQuery.addUser(queryValues).then((result)=>{
             console.log("USER ID:", result.rows[0].id);
             req.session.userId = result.rows[0].id;
-            res.redirect("/petition");
+            res.redirect("/profile");
         }).catch((err)=>{
             console.log(err);
             res.send("Could not add user to users");
@@ -84,6 +84,33 @@ app.post("/login", function (req, res) {
     }).catch((err)=>{
         console.log(err);
     });
+});
+
+app.get("/profile", function (req, res){
+    res.render("profile", {
+        layout: "main"
+    });
+});
+
+app.post("/profile", function (req, res){
+    var queryValues = [req.body.age, req.body.city, req.body.homepage];
+    //skip input if all empty
+    if (!req.body.age && !req.body.city && !req.body.homepage){
+        res.redirect("/thanks");
+    }
+    //add profile inputs to user_profiles database returning user_id
+    else {
+        dbQuery.addUserProfile(queryValues).then((result)=>{
+            console.log(result);
+            res.redirect("/thanks");
+        }).catch((err)=>{
+            console.log(err);
+            res.render("profile", {
+                layout: "main",
+                inputError: true
+            });
+        });
+    }
 });
 
 app.get("/petition", function (req, res){

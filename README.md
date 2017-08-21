@@ -11,6 +11,9 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 - [x] database setup 'users'
 - [x] database users fill on POST
 
+- [x] database setup 'profiles'
+- [x] database profile fill on POST
+
 - [x] set cookie
 - [x] store signature
 - [x] display signature
@@ -28,6 +31,7 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 
 - [x] register page
 - [x] login page
+- [x] profile page
 
 - [ ] hash password
 - [ ] login features
@@ -42,3 +46,5 @@ Users can sign a petition to save shrimps 🦐 and view their signature.
 ### Known Bugs
 - canvas.js public
 - signature can be empty
+- user can sign twice within same session
+- display thank you page correctly after profile
