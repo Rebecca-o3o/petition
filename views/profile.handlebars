@@ -1,0 +1,33 @@
+{{> weheartshrimps}}
+
+
+<p>Please tell us a bit about yourself</p>
+
+
+{{#if inputError}}
+{{> error}}
+{{/if}}
+
+<form action="/profile" method="post" class="register-form">
+    <ul>
+        <li>
+            <label>Age</label>
+            <input type="text" name="age">
+        </li>
+
+        <li>
+            <label>City</label>
+            <input type="text" name="city">
+        </li>
+
+        <li>
+            <label>Homepage</label>
+            <input type="text" name="homepage">
+        </li>
+
+    </ul>
+
+    <button id="continue-btn" type="submit" name="submit">Continue</button>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
