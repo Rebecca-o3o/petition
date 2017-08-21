@@ -87,22 +87,33 @@ app.post("/login", function (req, res) {
 });
 
 app.get("/profile", function (req, res){
-    res.render("profile", {
-        layout: "main"
-    });
+    //here check for if user is logged in
+    if (req.session.userId) {
+        console.log("USER EINGELOGGT");
+        res.render("profile", {
+            layout: "main"
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
 });
 
 app.post("/profile", function (req, res){
     var queryValues = [req.body.age, req.body.city, req.body.homepage];
     //skip input if all empty
     if (!req.body.age && !req.body.city && !req.body.homepage){
+        //XXXX if signed go to thanks
         res.redirect("/thanks");
+        //XXXX else go to petition
     }
     //add profile inputs to user_profiles database returning user_id
     else {
         dbQuery.addUserProfile(queryValues).then((result)=>{
             console.log(result);
+            //XXXX if signed go to thanks
             res.redirect("/thanks");
+            //XXXX else go to petition
         }).catch((err)=>{
             console.log(err);
             res.render("profile", {
@@ -114,9 +125,15 @@ app.post("/profile", function (req, res){
 });
 
 app.get("/petition", function (req, res){
-    res.render("petition", {
-        layout: "main"
-    });
+    //check for if user is logged in
+    if (req.session.userId) {
+        res.render("petition", {
+            layout: "main"
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
 });
 
 app.post("/petition", function (req, res){
@@ -143,8 +160,24 @@ app.post("/petition", function (req, res){
 });
 
 app.get("/thanks", function (req, res){
-    // signer ID stored with help of cookie session at /petition
-    var signId=req.session.signerId;
+    //check for if user is logged in
+    if (req.session.userId) {
+        // signer ID stored with help of cookie session at /petition
+        var signId=req.session.signerId;
+        dbQuery.displaySignatue(signId).then((result)=>{
+            res.render("thanks", {
+                layout: "main",
+                // num: numSigners,
+                sign: result.rows[0].signature
+            });
+        }).catch((err)=>{
+            console.log(err);
+            res.send("Couldn't load signature");
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
 
     // dbQuery.amountOfSigners().then((result)=>{
     //     numSigners = result.rows[0].count;
@@ -152,32 +185,27 @@ app.get("/thanks", function (req, res){
     //     console.log(err);
     //     res.send("Couldn't load amout of signers");
     // });
-
-    dbQuery.displaySignatue(signId).then((result)=>{
-        res.render("thanks", {
-            layout: "main",
-            // num: numSigners,
-            sign: result.rows[0].signature
-        });
-    }).catch((err)=>{
-        console.log(err);
-        res.send("Couldn't load signature");
-    });
 });
 
 app.get("/signers", function (req, res){
 
-    //respond with promise from query
-    dbQuery.listSigners().then((result)=>{
-        // console.log(result);
-        res.render("signers", {
-            layout: "main",
-            signers: result.rows
+    //check for if user is logged in
+    if (req.session.userId) {
+        //respond with promise from query
+        dbQuery.listSigners().then((result)=>{
+            // console.log(result);
+            res.render("signers", {
+                layout: "main",
+                signers: result.rows
+            });
+        }).catch(function(err){
+            console.log(err);
+            res.send("Couldn't load list of signers");
         });
-    }).catch(function(err){
-        console.log(err);
-        res.send("Couldn't load list of signers");
-    });
+    }
+    else {
+        res.redirect("/login");
+    }
 });
 
 app.use((req,res) => {
