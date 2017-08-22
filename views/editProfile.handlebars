@@ -1,0 +1,50 @@
+{{> logout}}
+{{> weheartshrimps}}
+
+<p>Edit your profile</p>
+
+{{#if inputError}}
+{{> error}}
+{{/if}}
+
+<form action="/profile/edit" method="post" class="register-form">
+    <ul>
+        <li>
+            <label>First Name</label>
+            <input type="text" name="first">
+        </li>
+        <li>
+            <label>Last Name</label>
+            <input type="text" name="last">
+        </li>
+        <li>
+            <label>Email</label>
+            <input type="text" name="email">
+        </li>
+
+        <li>
+            <label>Password</label>
+            <input type="password" name="password">
+        </li>
+
+        <li>
+            <label>Age</label>
+            <input type="text" name="age">
+        </li>
+
+        <li>
+            <label>City</label>
+            <input type="text" name="city">
+        </li>
+
+        <li>
+            <label>Homepage</label>
+            <input type="text" name="homepage">
+        </li>
+
+    </ul>
+
+    <button id="update-btn" type="submit" name="submit">Update</button>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>

@@ -14,7 +14,7 @@ app.engine('handlebars', hb());
 app.set('view engine', 'handlebars');
 
 //middleware for static assets
-app.use(express.static('assets'));
+app.use(express.static(__dirname + '/assets'));
 
 //middleware to remember id of row of signer
 app.use(cookieSession({
@@ -88,6 +88,7 @@ app.post("/login", function (req, res) {
             // add session userId
             dbQuery.checkforUser(req.body.email).then((result)=>{
                 req.session.userId = result;
+                console.log("CHECK FOR USER - RESULT:", result);
             }).catch((err)=>{
                 console.log(err);
             });
@@ -96,7 +97,7 @@ app.post("/login", function (req, res) {
                 // console.log(result);
                 if (req.session.userId === result) {
                     // signed - redirect to thank you
-                    // console.log("USER HAS SIGNED ALREADY");
+                    // console.log("USER HAS SIGNED ALREADY - redirect to thank you");
                     res.redirect("/thanks");
                 }
                 else {
@@ -271,18 +272,9 @@ app.get("/signers", function (req, res){
 });
 
 app.get("/profile/edit", function (req, res){
-    // console.log(req.session.userID);
-    //check for if user is logged in
     if (req.session.userId) {
-        //respond with promise from query
-        dbQuery.listSigners().then((result)=>{
-            console.log(result);
-            res.render("editProfile", {
-                layout: "main",
-            });
-        }).catch(function(err){
-            console.log(err);
-            res.send("Couldn't update profile");
+        res.render("editProfile", {
+            layout: "main"
         });
     }
     else {
