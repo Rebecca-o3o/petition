@@ -13,7 +13,7 @@ const db = spicedPg(`postgres:${DBuser}:${DBpass}@localhost:5432/signers`);
 // user_id is foreign key and will be inserted according session stored id
 var addSignature = function (queryValues){
     const queryText = "INSERT INTO signers (signature, user_id) VALUES ($1, (SELECT id FROM users WHERE id=$2)) RETURNING id";
-    console.log(queryText);
+    // console.log(queryText);
     //timestamp inserted automatically
     return db.query(queryText, queryValues);
 };
@@ -26,7 +26,7 @@ var amountOfSigners = function(){
 
 // get list of signers
 var listSigners = function(){
-    const queryText = 'SELECT users.first, users.last AS name FROM users JOIN signers ON signers.user_id = users.id WHERE signers.signature IS NOT NULL';
+    const queryText = 'SELECT users.first, users.last FROM users JOIN signers ON signers.user_id = users.id WHERE signers.signature IS NOT NULL';
     return db.query(queryText);
 };
 
@@ -52,14 +52,14 @@ var addUser = function (queryValues){
 // searching for plaintextpassword of user in users database
 var loginUser = function (email){
     const queryText = "SELECT password FROM users WHERE email='" + email + "'";
-    console.log("!!!!QUERY TEXT HIER:" + queryText);
+    // console.log("!!!!QUERY TEXT HIER:" + queryText);
     return db.query(queryText);
 };
 
 // searching for user in users database
 var checkforUser = function (email){
     const queryText = "SELECT id FROM users WHERE email='" + email + "'";
-    console.log("!!!!QUERY TEXT HIER:" + queryText);
+    // console.log("!!!!QUERY TEXT HIER:" + queryText);
     return db.query(queryText);
 };
 

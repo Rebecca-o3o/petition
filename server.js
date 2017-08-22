@@ -37,7 +37,7 @@ app.get("/video", function (req, res){
 app.get("/", function (req, res){
     // check if user is logged in
     if (req.session.userId) {
-        console.log("USER EINGELOGGT mit req.session.userId" + req.session.userId);
+        // console.log("USER EINGELOGGT mit req.session.userId" + req.session.userId);
         res.redirect("/thanks");
     }
     else {
@@ -63,7 +63,7 @@ app.post("/register", function (req, res){
     //add input to users database and returning users ID
     else {
         dbQuery.addUser(queryValues).then((result)=>{
-            console.log("USER ID:", result.rows[0].id);
+            // console.log("USER ID:", result.rows[0].id);
             req.session.userId = result.rows[0].id;
             res.redirect("/profile");
         }).catch((err)=>{
@@ -84,7 +84,7 @@ app.post("/login", function (req, res) {
     dbQuery.loginUser(req.body.email).then((result)=>{
         //matching passords
         if (req.body.password === result.rows[0].password) {
-            console.log("SESSION USER ID aus users:" + req.session.userId);
+            // console.log("SESSION USER ID aus users:" + req.session.userId);
             // add session userId
             dbQuery.checkforUser(req.body.email).then((result)=>{
                 req.session.userId = result;
@@ -93,10 +93,10 @@ app.post("/login", function (req, res) {
             });
             // check if already signed
             dbQuery.checkForSignature(req.session.userId).then((result)=>{
-                console.log(result);
+                // console.log(result);
                 if (req.session.userId === result) {
                     // signed - redirect to thank you
-                    console.log("USER HAS SIGNED ALREADY");
+                    // console.log("USER HAS SIGNED ALREADY");
                     res.redirect("/thanks");
                 }
                 else {
@@ -108,7 +108,7 @@ app.post("/login", function (req, res) {
             });
         }
         else {
-            console.log("passwords dont match");
+            // console.log("passwords dont match");
             res.render("login", {
                 layout: "main",
                 inputError: true
@@ -122,7 +122,7 @@ app.post("/login", function (req, res) {
 app.get("/profile", function (req, res){
     //here check for if user is logged in
     if (req.session.userId) {
-        console.log("USER EINGELOGGT");
+        // console.log("USER EINGELOGGT");
         res.render("profile", {
             layout: "main"
         });
@@ -133,17 +133,17 @@ app.get("/profile", function (req, res){
 });
 
 app.post("/profile", function (req, res){
-    console.log("USER TRIES TO PERFORM POST FROM PROFILE with req.session.userId:"+ req.session.userId);
+    // console.log("USER TRIES TO PERFORM POST FROM PROFILE with req.session.userId:"+ req.session.userId);
     var queryValues = [req.body.age, req.body.city, req.body.homepage];
     //skip input if all empty
     if (!req.body.age && !req.body.city && !req.body.homepage){
-        console.log("USER DIDNT INCLUDE ANY PROFILE DETAILS");
-        console.log("ABOUT TO RUN CHECKS FOR SIGNATURE, the user id is:", req.session.userId);
+        // console.log("USER DIDNT INCLUDE ANY PROFILE DETAILS");
+        // console.log("ABOUT TO RUN CHECKS FOR SIGNATURE, the user id is:", req.session.userId);
         dbQuery.checkForSignature(req.session.userId).then((result)=>{
-            console.log("this was the result of check for signature", result);
+            // console.log("this was the result of check for signature", result);
             if (req.session.userId === result) {
                 // signed - redirect to thank you
-                console.log("USER HAS SIGNED ALREADY");
+                // console.log("USER HAS SIGNED ALREADY");
                 res.redirect("/thanks");
             }
             else {
@@ -185,7 +185,7 @@ app.get("/petition", function (req, res){
 
 app.post("/petition", function (req, res){
     var queryValues = [req.body.signature, req.session.userId];
-    console.log("TRYING TO ADD ROW TO SIGNERS with userSessionId and signature:", queryValues);
+    // console.log("TRYING TO ADD ROW TO SIGNERS with userSessionId and signature:", queryValues);
     //show error message if inputs empty
     if (!req.body.signature){
         res.render("petition", {
@@ -271,7 +271,7 @@ app.get("/signers", function (req, res){
 });
 
 app.get("/profile/edit", function (req, res){
-    console.log(req.session.userID);
+    // console.log(req.session.userID);
     //check for if user is logged in
     if (req.session.userId) {
         //respond with promise from query
