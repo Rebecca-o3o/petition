@@ -51,16 +51,16 @@ var addUser = function (queryValues){
 
 // searching for plaintextpassword of user in users database
 var loginUser = function (email){
-    const queryText = "SELECT password FROM users WHERE email='" + email + "'";
-    // console.log("!!!!QUERY TEXT HIER:" + queryText);
-    return db.query(queryText);
+    const queryText = "SELECT password FROM users WHERE email=$1";
+    console.log("LOGIN USER QUERY TEXT HIER:" + queryText);
+    return db.query(queryText, [email]);
 };
 
 // searching for user in users database
 var checkforUser = function (email){
-    const queryText = "SELECT id FROM users WHERE email='" + email + "'";
-    // console.log("!!!!QUERY TEXT HIER:" + queryText);
-    return db.query(queryText);
+    const queryText = "SELECT id FROM users WHERE email=$1";
+    console.log("CHECK FOR USER QUERY TEXT HIER:" + queryText);
+    return db.query(queryText, [email]);
 };
 
 // insert query to user_profiles database with preventing SQL injection (pg module)
