@@ -10,8 +10,10 @@ const db = spicedPg(`postgres:${DBuser}:${DBpass}@localhost:5432/signers`);
 
 
 // insert query to signers database with preventing SQL injection (pg module)
+// user_id is foreign key and will be inserted according session stored id
 var addSignature = function (queryValues){
-    const queryText = 'INSERT INTO signers (first, last, signature) VALUES ($1, $2, $3) RETURNING id';
+    const queryText = "INSERT INTO signers (signature, user_id) VALUES ($1, (SELECT id FROM users WHERE id=$2)) RETURNING id";
+    console.log(queryText);
     //timestamp inserted automatically
     return db.query(queryText, queryValues);
 };
@@ -29,9 +31,15 @@ var listSigners = function(){
 };
 
 // get signature from database
-var displaySignatue = function(signId){
-    const queryText = 'SELECT signature FROM signers WHERE id='+ signId;
-    return db.query(queryText);
+var displaySignature = function(userSessionId){
+    const queryText = 'SELECT signature FROM signers WHERE user_id=$1';
+    return db.query(queryText, [userSessionId]);
+};
+
+// check if user signed already
+var checkForSignature = function(userSessionId){
+    const queryText = 'SELECT user_id, signature FROM signers WHERE user_id=$1';
+    return db.query(queryText, [userSessionId]);
 };
 
 // insert query to users database with preventing SQL injection (pg module)
@@ -48,6 +56,13 @@ var loginUser = function (email){
     return db.query(queryText);
 };
 
+// searching for user in users database
+var checkforUser = function (email){
+    const queryText = "SELECT id FROM users WHERE email='" + email + "'";
+    console.log("!!!!QUERY TEXT HIER:" + queryText);
+    return db.query(queryText);
+};
+
 // insert query to user_profiles database with preventing SQL injection (pg module)
 var addUserProfile = function (queryValues){
     const queryText = 'INSERT INTO user_profiles (age, city, homepage) VALUES ($1, $2, $3) RETURNING user_id';
@@ -59,8 +74,10 @@ module.exports = {
     addSignature,
     amountOfSigners,
     listSigners,
-    displaySignatue,
+    displaySignature,
+    checkForSignature,
     addUser,
     loginUser,
+    checkforUser,
     addUserProfile
 };

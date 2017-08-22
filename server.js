@@ -37,7 +37,7 @@ app.get("/video", function (req, res){
 app.get("/", function (req, res){
     // check if user is logged in
     if (req.session.userId) {
-        console.log("USER EINGELOGGT");
+        console.log("USER EINGELOGGT mit req.session.userId" + req.session.userId);
         res.redirect("/thanks");
     }
     else {
@@ -84,13 +84,29 @@ app.post("/login", function (req, res) {
     dbQuery.loginUser(req.body.email).then((result)=>{
         //matching passords
         if (req.body.password === result.rows[0].password) {
-            console.log("resolved");
+            console.log("SESSION USER ID aus users:" + req.session.userId);
+            // add session userId
+            dbQuery.checkforUser(req.body.email).then((result)=>{
+                req.session.userId = result;
+            }).catch((err)=>{
+                console.log(err);
+            });
             // check if already signed
-            // signed - redirect to thank you
-            // not signed redirect to petition
-            res.redirect("/petition");
+            dbQuery.checkForSignature(req.session.userId).then((result)=>{
+                console.log(result);
+                if (req.session.userId === result) {
+                    // signed - redirect to thank you
+                    console.log("USER HAS SIGNED ALREADY");
+                    res.redirect("/thanks");
+                }
+                else {
+                    // not signed - redirect to petition
+                    res.redirect("/petition");
+                }
+            }).catch((err)=>{
+                console.log(err);
+            });
         }
-        //not matching passwords
         else {
             console.log("passwords dont match");
             res.render("login", {
@@ -117,12 +133,26 @@ app.get("/profile", function (req, res){
 });
 
 app.post("/profile", function (req, res){
+    console.log("USER TRIES TO PERFORM POST FROM PROFILE with req.session.userId:"+ req.session.userId);
     var queryValues = [req.body.age, req.body.city, req.body.homepage];
     //skip input if all empty
     if (!req.body.age && !req.body.city && !req.body.homepage){
-        //XXXX if signed go to thanks
-        res.redirect("/thanks");
-        //XXXX else go to petition
+        console.log("USER DIDNT INCLUDE ANY PROFILE DETAILS");
+        console.log("ABOUT TO RUN CHECKS FOR SIGNATURE, the user id is:", req.session.userId);
+        dbQuery.checkForSignature(req.session.userId).then((result)=>{
+            console.log("this was the result of check for signature", result);
+            if (req.session.userId === result) {
+                // signed - redirect to thank you
+                console.log("USER HAS SIGNED ALREADY");
+                res.redirect("/thanks");
+            }
+            else {
+                // not signed - redirect to petition
+                res.redirect("/petition");
+            }
+        }).catch((err)=>{
+            console.log(err);
+        });
     }
     //add profile inputs to user_profiles database returning user_id
     else {
@@ -154,9 +184,10 @@ app.get("/petition", function (req, res){
 });
 
 app.post("/petition", function (req, res){
-    var queryValues = [req.body.first, req.body.last, req.body.signature];
+    var queryValues = [req.body.signature, req.session.userId];
+    console.log("TRYING TO ADD ROW TO SIGNERS with userSessionId and signature:", queryValues);
     //show error message if inputs empty
-    if (!req.body.first && !req.body.last && !req.body.signature){
+    if (!req.body.signature){
         res.render("petition", {
             layout: "main",
             inputError: true
@@ -165,8 +196,9 @@ app.post("/petition", function (req, res){
     //add input to database returning signers ID
     else {
         dbQuery.addSignature(queryValues).then((result)=>{
-            console.log("SIGNERS ID:", result.rows[0].id);
-            req.session.signerId = result.rows[0].id;
+            console.log(result);
+            // console.log("SIGNERS ID:", result.rows[0].id);
+            // req.session.signerId = result.rows[0].id;
             res.redirect("/thanks");
         }).catch((err)=>{
             console.log(err);
@@ -178,23 +210,36 @@ app.post("/petition", function (req, res){
 
 app.get("/thanks", function (req, res){
     //check for if user is logged in
-    if (req.session.userId) {
-        // signer ID stored with help of cookie session at /petition
-        var signId=req.session.signerId;
-        dbQuery.displaySignatue(signId).then((result)=>{
-            res.render("thanks", {
-                layout: "main",
-                // num: numSigners,
-                sign: result.rows[0].signature
-            });
-        }).catch((err)=>{
-            console.log(err);
-            res.send("Couldn't load signature");
-        });
-    }
-    else {
-        res.redirect("/login");
-    }
+    var userSessionId=req.session.userId;
+    // if (req.session.userId) {
+    //     dbQuery.checkForSignature(req.session.userId).then((result)=>{
+    //         console.log(result.rows[0].userId);
+    //         if (req.session.userId === result) {
+    //             // signed - redirect to thank you
+    //             console.log("USER HAS SIGNED ALREADY");
+
+                dbQuery.displaySignature(userSessionId).then((result)=>{
+                    res.render("thanks", {
+                        layout: "main",
+                        // num: numSigners,
+                        sign: result.rows[0].signature
+                    });
+                }).catch((err)=>{
+                    console.log(err);
+                    res.send("Couldn't load signature");
+                });
+            // }
+            // else {
+            //     // not signed - redirect to petition
+            //     res.redirect("/petition");
+            // }
+        // }).catch((err)=>{
+        //     console.log(err);
+        // });
+    // }
+    // else {
+    //     res.redirect("/login");
+    // }
 
     // dbQuery.amountOfSigners().then((result)=>{
     //     numSigners = result.rows[0].count;
@@ -223,6 +268,31 @@ app.get("/signers", function (req, res){
     else {
         res.redirect("/login");
     }
+});
+
+app.get("/profile/edit", function (req, res){
+    console.log(req.session.userID);
+    //check for if user is logged in
+    if (req.session.userId) {
+        //respond with promise from query
+        dbQuery.listSigners().then((result)=>{
+            console.log(result);
+            res.render("editProfile", {
+                layout: "main",
+            });
+        }).catch(function(err){
+            console.log(err);
+            res.send("Couldn't update profile");
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
+});
+
+app.post("/logout", function (req, res){
+    req.session.userId = null;
+    res.redirect("/login");
 });
 
 app.use((req,res) => {
