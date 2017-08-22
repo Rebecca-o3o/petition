@@ -11,7 +11,7 @@ const db = spicedPg(`postgres:${DBuser}:${DBpass}@localhost:5432/signers`);
 
 // insert query to signers database with preventing SQL injection (pg module)
 // user_id is foreign key and will be inserted according session stored id
-var addSignature = function (queryValues){
+var addSignature = function (queryValues, userSessionId){
     const queryText = "INSERT INTO signers (signature, user_id) VALUES ($1, (SELECT id FROM users WHERE id=$2)) RETURNING id";
     console.log(queryText);
     //timestamp inserted automatically
@@ -26,7 +26,7 @@ var amountOfSigners = function(){
 
 // get list of signers
 var listSigners = function(){
-    const queryText = 'SELECT first, last FROM signers';
+    const queryText = 'SELECT users.first, users.last AS name FROM users JOIN signers ON signers.user_id = users.id WHERE signers.signature IS NOT NULL';
     return db.query(queryText);
 };
 
