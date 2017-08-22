@@ -91,3 +91,10 @@ video {
     top: 0;
     z-index: -10;
 }
+
+#logout-btn{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 100px;
+}
