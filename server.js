@@ -84,29 +84,53 @@ app.post("/login", function (req, res) {
     dbQuery.loginUser(req.body.email).then((result)=>{
         //matching passords
         if (req.body.password === result.rows[0].password) {
+
+
             // console.log("SESSION USER ID aus users:" + req.session.userId);
             // add session userId
             dbQuery.checkforUser(req.body.email).then((result)=>{
-                req.session.userId = result;
-                console.log("CHECK FOR USER - RESULT:", result);
+                // console.log("YELL THIS IS THE RESULT", result);
+                req.session.userId = result.rows[0].id;
+                // console.log("SESSION ID AFTER SUCCESSFULL LOGIN:", req.session.userId);
+                res.redirect("/thanks");
             }).catch((err)=>{
                 console.log(err);
             });
+
+
             // check if already signed
-            dbQuery.checkForSignature(req.session.userId).then((result)=>{
-                // console.log(result);
-                if (req.session.userId === result) {
-                    // signed - redirect to thank you
-                    // console.log("USER HAS SIGNED ALREADY - redirect to thank you");
-                    res.redirect("/thanks");
-                }
-                else {
-                    // not signed - redirect to petition
-                    res.redirect("/petition");
-                }
-            }).catch((err)=>{
-                console.log(err);
-            });
+            // dbQuery.displaySignature(req.session.userId).then((result)=>{
+            //     console.log("ABOUT TO CHECK FOR SIGNATURE");
+            //     if (result) {
+            //         res.redirect("/thanks");
+            //     }
+            //     if (!result) {
+            //         res.redirect("/petition");
+            //     }
+            //     else {
+            //         res.render("login", {
+            //             layout: "main",
+            //             inputError: true
+            //         });
+            //     }
+            // }).catch((err)=>{
+            //     console.log(err);
+            // });
+
+
+            //another way to check for signed
+            // dbQuery.checkForSignature(req.session.userId).then((result)=>{
+            //     console.log(req.session.userId);
+            //     console.log("ABOUT TO CHECK FOR SIGNATURE - RESULT:", result);
+            //     if (req.session.userId === result) {
+            //         // signed - redirect to thank you
+            //         // console.log("USER HAS SIGNED ALREADY - redirect to thank you");
+            //         res.redirect("/thanks");
+            //     }
+            //     else {
+            //         // not signed - redirect to petition
+            //         res.redirect("/petition");
+            //     }
         }
         else {
             // console.log("passwords dont match");
@@ -142,7 +166,7 @@ app.post("/profile", function (req, res){
         // console.log("ABOUT TO RUN CHECKS FOR SIGNATURE, the user id is:", req.session.userId);
         dbQuery.checkForSignature(req.session.userId).then((result)=>{
             // console.log("this was the result of check for signature", result);
-            if (req.session.userId === result) {
+            if (req.session.userId === result.rows[0].id) {
                 // signed - redirect to thank you
                 // console.log("USER HAS SIGNED ALREADY");
                 res.redirect("/thanks");
@@ -211,7 +235,8 @@ app.post("/petition", function (req, res){
 
 app.get("/thanks", function (req, res){
     //check for if user is logged in
-    var userSessionId=req.session.userId;
+
+    console.log("ABOUT TO LOAD THANKS PAGE");
     // if (req.session.userId) {
     //     dbQuery.checkForSignature(req.session.userId).then((result)=>{
     //         console.log(result.rows[0].userId);
@@ -219,7 +244,8 @@ app.get("/thanks", function (req, res){
     //             // signed - redirect to thank you
     //             console.log("USER HAS SIGNED ALREADY");
 
-                dbQuery.displaySignature(userSessionId).then((result)=>{
+                dbQuery.displaySignature(req.session.userId).then((result)=>{
+                    console.log("ABOUT TO DISPLAY SIGNATURE WITH RESULT:", result);
                     res.render("thanks", {
                         layout: "main",
                         // num: numSigners,
@@ -284,6 +310,7 @@ app.get("/profile/edit", function (req, res){
 
 app.post("/logout", function (req, res){
     req.session.userId = null;
+    console.log("LOGOUT", req.session.userId);
     res.redirect("/login");
 });
 

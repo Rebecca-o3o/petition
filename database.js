@@ -31,14 +31,17 @@ var listSigners = function(){
 };
 
 // get signature from database
-var displaySignature = function(userSessionId){
-    const queryText = 'SELECT signature FROM signers WHERE user_id=$1';
-    return db.query(queryText, [userSessionId]);
+var displaySignature = function(userId){
+    // console.log("THIS IS QUERY VALUE", userId);
+    const queryText = "SELECT signature FROM signers WHERE user_id=$1";
+    // console.log("QUERY TEXT FOR DISPLAY SIG IS:", queryText);
+    return db.query(queryText, [userId]);
 };
 
 // check if user signed already
 var checkForSignature = function(userSessionId){
-    const queryText = 'SELECT user_id, signature FROM signers WHERE user_id=$1';
+    const queryText = 'SELECT id FROM signers WHERE user_id=$1';
+    // console.log("QUERY TEXT IS:", queryText);
     return db.query(queryText, [userSessionId]);
 };
 
@@ -49,17 +52,17 @@ var addUser = function (queryValues){
     return db.query(queryText, queryValues);
 };
 
-// searching for plaintextpassword of user in users database
+// searching for plaintextpassword of usser in users database
 var loginUser = function (email){
     const queryText = "SELECT password FROM users WHERE email=$1";
-    console.log("LOGIN USER QUERY TEXT HIER:" + queryText);
+    // console.log("LOGIN USER QUERY TEXT HIER:" + queryText);
     return db.query(queryText, [email]);
 };
 
 // searching for user in users database
 var checkforUser = function (email){
     const queryText = "SELECT id FROM users WHERE email=$1";
-    console.log("CHECK FOR USER QUERY TEXT HIER:" + queryText);
+    // console.log("CHECK FOR USER QUERY TEXT HIER:" + queryText);
     return db.query(queryText, [email]);
 };
 
