@@ -4,9 +4,9 @@ const spicedPg = require('spiced-pg');
 //own modules:
 const {hashPassword,checkPassword} = require('./hashing');
 //get database username and password
-const {DBuser,DBpass} = require('./secrets');
+// const {DBuser,DBpass} = require('./secrets');
 
-const db = spicedPg(`postgres:${DBuser}:${DBpass}@localhost:5432/signers`);
+var db = spicedPg(process.env.DATABASE_URL || require('./secrets').db);
 
 
 // insert query to signers database with preventing SQL injection (pg module)
