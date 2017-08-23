@@ -245,12 +245,18 @@ app.get("/thanks", function (req, res){
     //             console.log("USER HAS SIGNED ALREADY");
 
                 dbQuery.displaySignature(req.session.userId).then((result)=>{
-                    console.log("ABOUT TO DISPLAY SIGNATURE WITH RESULT:", result);
-                    res.render("thanks", {
-                        layout: "main",
-                        // num: numSigners,
-                        sign: result.rows[0].signature
-                    });
+                    console.log("ABOUT TO DISPLAY SIGNATURE WITH RESULT:", result.rows.length);
+                    if (result.rows.length == 0) {
+                        console.log("REDIRECT TO PETITION BECAUSE RESULT.SIG NULL");
+                        res.redirect("/petition");
+                    }
+                    else {
+                        res.render("thanks", {
+                            layout: "main",
+                            // num: numSigners,
+                            sign: result.rows[0].signature
+                        });
+                    }
                 }).catch((err)=>{
                     console.log(err);
                     res.send("Couldn't load signature");
