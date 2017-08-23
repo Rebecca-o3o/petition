@@ -7,7 +7,14 @@ const cookieSession = require('cookie-session');
 
 //own modules:
 const dbQuery = require('./database');
-const {cookieSecret} = require('./secrets');
+// const {cookieSecret} = require('./secrets');
+var cookieSecret;
+if (process.env.DATABASE_URL) {
+    cookieSecret = process.env.cookieSecret;
+}
+else {
+    cookieSecret = require('./secrets').cookieSecret;
+}
 
 // boilerplate to use handlebars as template engine for express
 app.engine('handlebars', hb());
