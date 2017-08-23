@@ -9,6 +9,20 @@ const {hashPassword,checkPassword} = require('./hashing');
 var db = spicedPg(process.env.DATABASE_URL || require('./secrets').db);
 
 
+// insert query to users database with preventing SQL injection (pg module)
+var addUser = function (queryValues){
+    const queryText = 'INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) RETURNING id';
+    //timestamp inserted automatically
+    return db.query(queryText, queryValues);
+};
+
+// insert query to user_profiles database with preventing SQL injection (pg module)
+var addUserProfile = function (queryValues){
+    const queryText = 'INSERT INTO user_profiles (age, city, homepage) VALUES ($1, $2, $3) RETURNING user_id';
+    //timestamp inserted automatically
+    return db.query(queryText, queryValues);
+};
+
 // insert query to signers database with preventing SQL injection (pg module)
 // user_id is foreign key and will be inserted according session stored id
 var addSignature = function (queryValues){
@@ -26,7 +40,7 @@ var amountOfSigners = function(){
 
 // get list of signers
 var listSigners = function(){
-    const queryText = 'SELECT users.first, users.last FROM users JOIN signers ON signers.user_id = users.id WHERE signers.signature IS NOT NULL';
+    const queryText = 'SELECT users.first, users.last FROM users JOIN signers ON signers.user_id = users.id WHERE signers.signature IS NOT NULL ORDER BY 1 ASC';
     return db.query(queryText);
 };
 
@@ -45,13 +59,6 @@ var checkForSignature = function(userSessionId){
     return db.query(queryText, [userSessionId]);
 };
 
-// insert query to users database with preventing SQL injection (pg module)
-var addUser = function (queryValues){
-    const queryText = 'INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) RETURNING id';
-    //timestamp inserted automatically
-    return db.query(queryText, queryValues);
-};
-
 // searching for plaintextpassword of usser in users database
 var loginUser = function (email){
     const queryText = "SELECT password FROM users WHERE email=$1";
@@ -66,21 +73,16 @@ var checkforUser = function (email){
     return db.query(queryText, [email]);
 };
 
-// insert query to user_profiles database with preventing SQL injection (pg module)
-var addUserProfile = function (queryValues){
-    const queryText = 'INSERT INTO user_profiles (age, city, homepage) VALUES ($1, $2, $3) RETURNING user_id';
-    //timestamp inserted automatically
-    return db.query(queryText, queryValues);
-};
+
 
 module.exports = {
+    addUser,
+    addUserProfile,
     addSignature,
     amountOfSigners,
     listSigners,
     displaySignature,
     checkForSignature,
-    addUser,
     loginUser,
-    checkforUser,
-    addUserProfile
+    checkforUser
 };
