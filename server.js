@@ -234,45 +234,23 @@ app.post("/petition", function (req, res){
 });
 
 app.get("/thanks", function (req, res){
-    //check for if user is logged in
 
-    console.log("ABOUT TO LOAD THANKS PAGE");
-    // if (req.session.userId) {
-    //     dbQuery.checkForSignature(req.session.userId).then((result)=>{
-    //         console.log(result.rows[0].userId);
-    //         if (req.session.userId === result) {
-    //             // signed - redirect to thank you
-    //             console.log("USER HAS SIGNED ALREADY");
-
-                dbQuery.displaySignature(req.session.userId).then((result)=>{
-                    console.log("ABOUT TO DISPLAY SIGNATURE WITH RESULT:", result.rows.length);
-                    if (result.rows.length == 0) {
-                        console.log("REDIRECT TO PETITION BECAUSE RESULT.SIG NULL");
-                        res.redirect("/petition");
-                    }
-                    else {
-                        res.render("thanks", {
-                            layout: "main",
-                            // num: numSigners,
-                            sign: result.rows[0].signature
-                        });
-                    }
-                }).catch((err)=>{
-                    console.log(err);
-                    res.send("Couldn't load signature");
-                });
-            // }
-            // else {
-            //     // not signed - redirect to petition
-            //     res.redirect("/petition");
-            // }
-        // }).catch((err)=>{
-        //     console.log(err);
-        // });
-    // }
-    // else {
-    //     res.redirect("/login");
-    // }
+    dbQuery.displaySignature(req.session.userId).then((result)=>{
+        //check if signed otherwise redirect to petition
+        if (result.rows.length == 0) {
+            res.redirect("/petition");
+        }
+        else {
+            res.render("thanks", {
+                layout: "main",
+                // num: numSigners,
+                sign: result.rows[0].signature
+            });
+        }
+    }).catch((err)=>{
+        console.log(err);
+        res.send("Couldn't load signature");
+    });
 
     // dbQuery.amountOfSigners().then((result)=>{
     //     numSigners = result.rows[0].count;
@@ -328,6 +306,6 @@ app.use((req,res) => {
 });
 
 //log server start
-app.listen(8080, ()=> {
-    console.log ("listening on port 8080");
+app.listen( process.env.PORT || 8080, () => {
+    console.log("server listening");
 });
