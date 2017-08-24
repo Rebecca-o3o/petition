@@ -7,6 +7,18 @@
 
 <ul>
     {{#each signers}}
-        <li>{{first}} {{last}}</li>
+        <li>
+            {{#if homepage}}
+                <a href="{{homepage}}" target="_blank">{{first}} {{last}}</a>
+            {{else}}
+                {{first}} {{last}}
+            {{/if}}
+
+            {{#if age}}
+               ({{age}}{{#if city}}, {{city}}{{/if}})
+                    {{else if city}}
+              ({{this.city}})
+            {{/if}}
+        </li>
     {{/each}}
 </ul>
