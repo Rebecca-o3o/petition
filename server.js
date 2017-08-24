@@ -289,15 +289,15 @@ app.get("/signers", function (req, res){
             }
             // cache miss - so do query and add result to redis
             if (!data){
-                console.log("redis signers null data is:" + data);
+                // console.log("redis signers null data is:" + data);
                 //respond with promise from query
                 dbQuery.listSigners().then((result)=>{
-                    // console.log(result);
+                    // cache result.rows in redis and render page with pg result.rows
                     client.setex('signers', 60, JSON.stringify(result.rows), function(err){
                         if (err){
                             return console.log(err);
                         }
-                        console.log("the query result is successfully set to redis");
+                        // console.log("the query result is successfully set to redis");
                     });
                     res.render("signers", {
                         layout: "main",
@@ -311,7 +311,11 @@ app.get("/signers", function (req, res){
             }
             //cache hit
             if (data){
-                console.log("redis not data is:" + JSON.parse(data));
+                // console.log("redis data is:" + JSON.parse(data));
+                res.render("signers", {
+                    layout: "main",
+                    signers: JSON.parse(data)
+                });
             }
         });
     }
