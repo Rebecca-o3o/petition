@@ -282,6 +282,14 @@ app.get("/signers", function (req, res){
 
     //check for if user is logged in
     if (req.session.userId) {
+        //check if redis cached rows
+        client.get('signers', function(err, data){
+            if (err) {
+                return console.log(err);
+            }
+            console.log("redis signers data is:" + data);
+        });
+
         //respond with promise from query
         dbQuery.listSigners().then((result)=>{
             // console.log(result);
