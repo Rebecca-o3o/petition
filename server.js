@@ -177,6 +177,7 @@ app.get("/profile", function (req, res){
 
 app.post("/profile", function (req, res){
     // console.log("USER TRIES TO PERFORM POST FROM PROFILE with req.session.userId:"+ req.session.userId);
+    req.body.age ? req.body.age : req.body.age = null;
     var queryValues = [req.body.age, req.body.city, req.body.homepage, req.session.userId];
     //skip input if all empty
     if (!req.body.age && !req.body.city && !req.body.homepage){
@@ -298,7 +299,7 @@ app.get("/signers", function (req, res){
                 // console.log("redis signers null data is:" + data);
                 //respond with promise from query
                 dbQuery.listSigners().then((result)=>{
-                    console.log(result.rows);    
+                    console.log(result.rows);
                     // cache result.rows in redis and render page with pg result.rows
                     client.setex('signers', 60, JSON.stringify(result.rows), function(err){
                         if (err){
