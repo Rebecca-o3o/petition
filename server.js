@@ -200,10 +200,16 @@ app.post("/profile", function (req, res){
     //add profile inputs to user_profiles database returning user_id
     else {
         dbQuery.addUserProfile(queryValues).then((result)=>{
-            console.log(result);
+            // delete redis cache
+            client.del('signers');
+            console.log("Redis cache deleted");
+
             //XXXX if signed go to thanks
+            console.log(result.rows);
             res.redirect("/thanks");
+
             //XXXX else go to petition
+
         }).catch((err)=>{
             console.log(err);
             res.render("profile", {
