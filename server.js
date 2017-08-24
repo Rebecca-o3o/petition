@@ -298,6 +298,7 @@ app.get("/signers", function (req, res){
                 // console.log("redis signers null data is:" + data);
                 //respond with promise from query
                 dbQuery.listSigners().then((result)=>{
+                    console.log(result.rows);    
                     // cache result.rows in redis and render page with pg result.rows
                     client.setex('signers', 60, JSON.stringify(result.rows), function(err){
                         if (err){

@@ -18,7 +18,7 @@ var addUser = function (queryValues){
 
 // insert query to user_profiles database with preventing SQL injection (pg module)
 var addUserProfile = function (queryValues){
-    const queryText = 'INSERT INTO user_profiles (age, city, homepage, user_id) VALUES ($1, $2, $3, (SELECT id FROM users WHERE id=$4)) RETURNING id';
+    const queryText = 'INSERT INTO user_profiles (age, city, homepage, user_id) VALUES ($1, $2, $3, (SELECT id FROM users WHERE id=$4)) RETURNING user_id';
     //timestamp inserted automatically
     return db.query(queryText, queryValues);
 };
@@ -26,7 +26,7 @@ var addUserProfile = function (queryValues){
 // insert query to signers database with preventing SQL injection (pg module)
 // user_id is foreign key and will be inserted according session stored id
 var addSignature = function (queryValues){
-    const queryText = "INSERT INTO signers (signature, user_id) VALUES ($1, (SELECT id FROM users WHERE id=$2)) RETURNING id";
+    const queryText = "INSERT INTO signers (signature, user_id) VALUES ($1, (SELECT id FROM users WHERE id=$2)) RETURNING user_id";
     // console.log(queryText);
     //timestamp inserted automatically
     return db.query(queryText, queryValues);
@@ -40,7 +40,9 @@ var amountOfSigners = function(){
 
 // get list of signers
 var listSigners = function(){
-    const queryText = 'SELECT users.first, users.last FROM users JOIN signers ON signers.user_id = users.id WHERE signers.signature IS NOT NULL ORDER BY 1 ASC';
+    const queryText = 'SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.homepage \
+    FROM users INNER JOIN signers ON users.id = signers.user_id \
+    LEFT OUTER JOIN user_profiles ON users.id = user_profiles.user_id';
     return db.query(queryText);
 };
 
