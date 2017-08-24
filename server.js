@@ -287,19 +287,32 @@ app.get("/signers", function (req, res){
             if (err) {
                 return console.log(err);
             }
-            console.log("redis signers data is:" + data);
-        });
+            // cache miss - so do query and add result to redis
+            if (!data){
+                console.log("redis signers null data is:" + data);
+                //respond with promise from query
+                dbQuery.listSigners().then((result)=>{
+                    // console.log(result);
+                    client.setex('signers', 60, JSON.stringify(result.rows), function(err){
+                        if (err){
+                            return console.log(err);
+                        }
+                        console.log("the query result is successfully set to redis");
+                    });
+                    res.render("signers", {
+                        layout: "main",
+                        signers: result.rows
+                    });
+                }).catch(function(err){
+                    console.log(err);
+                    res.send("Couldn't load list of signers");
+                });
 
-        //respond with promise from query
-        dbQuery.listSigners().then((result)=>{
-            // console.log(result);
-            res.render("signers", {
-                layout: "main",
-                signers: result.rows
-            });
-        }).catch(function(err){
-            console.log(err);
-            res.send("Couldn't load list of signers");
+            }
+            //cache hit
+            if (data){
+                console.log("redis not data is:" + JSON.parse(data));
+            }
         });
     }
     else {
