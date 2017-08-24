@@ -177,7 +177,7 @@ app.get("/profile", function (req, res){
 
 app.post("/profile", function (req, res){
     // console.log("USER TRIES TO PERFORM POST FROM PROFILE with req.session.userId:"+ req.session.userId);
-    var queryValues = [req.body.age, req.body.city, req.body.homepage];
+    var queryValues = [req.body.age, req.body.city, req.body.homepage, req.session.userId];
     //skip input if all empty
     if (!req.body.age && !req.body.city && !req.body.homepage){
         // console.log("USER DIDNT INCLUDE ANY PROFILE DETAILS");

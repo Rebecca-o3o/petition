@@ -18,7 +18,7 @@ var addUser = function (queryValues){
 
 // insert query to user_profiles database with preventing SQL injection (pg module)
 var addUserProfile = function (queryValues){
-    const queryText = 'INSERT INTO user_profiles (age, city, homepage) VALUES ($1, $2, $3) RETURNING user_id';
+    const queryText = 'INSERT INTO user_profiles (age, city, homepage, user_id) VALUES ($1, $2, $3, (SELECT id FROM users WHERE id=$4)) RETURNING id';
     //timestamp inserted automatically
     return db.query(queryText, queryValues);
 };
