@@ -23,5 +23,6 @@ CREATE TABLE user_profiles(
     user_id INTEGER REFERENCES users(id),
     age INTEGER,
     city VARCHAR,
-    homepage VARCHAR
+    homepage VARCHAR,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
