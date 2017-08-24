@@ -4,6 +4,17 @@ const express = require('express');
 const app = express();
 const hb = require('express-handlebars');
 const cookieSession = require('cookie-session');
+const redis = require('redis');
+
+// redis client
+var client = redis.createClient({
+    host: 'localhost',
+    port: 6379
+});
+
+client.on('error', function(err) {
+    console.log(err);
+});
 
 //own modules:
 const dbQuery = require('./database');
