@@ -184,7 +184,7 @@ app.post("/profile", function (req, res){
         // console.log("USER DIDNT INCLUDE ANY PROFILE DETAILS");
         // console.log("ABOUT TO RUN CHECKS FOR SIGNATURE, the user id is:", req.session.userId);
         dbQuery.checkForSignature(req.session.userId).then((result)=>{
-            // console.log("this was the result of check for signature", result);
+            // console.log("this was the result of check for signature", result.rows[0].id);
             if (req.session.userId === result.rows[0].id) {
                 // signed - redirect to thank you
                 // console.log("USER HAS SIGNED ALREADY");
@@ -195,7 +195,8 @@ app.post("/profile", function (req, res){
                 res.redirect("/petition");
             }
         }).catch((err)=>{
-            console.log(err);
+            console.log("THIS IS THE CATCH FROM CHECK FOR SIGNATURE", err);
+            res.redirect("/petition");
         });
     }
     //add profile inputs to user_profiles database returning user_id

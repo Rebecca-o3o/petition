@@ -55,10 +55,10 @@ var displaySignature = function(userId){
 };
 
 // check if user signed already
-var checkForSignature = function(userSessionId){
+var checkForSignature = function(userId){
     const queryText = 'SELECT id FROM signers WHERE user_id=$1';
-    // console.log("QUERY TEXT IS:", queryText);
-    return db.query(queryText, [userSessionId]);
+    console.log("QUERY TEXT IS:", queryText);
+    return db.query(queryText, [userId]);
 };
 
 // searching for plaintextpassword of usser in users database
