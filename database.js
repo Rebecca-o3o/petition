@@ -75,7 +75,14 @@ var checkforUser = function (email){
     return db.query(queryText, [email]);
 };
 
-
+var getUserData = function(userId){
+    const queryText = "SELECT users.first, users.last, users.email, user_profiles.age, user_profiles.city, user_profiles.homepage \
+    FROM users \
+    LEFT OUTER JOIN user_profiles \
+    ON users.id = user_profiles.user_id WHERE users.id=$1";
+    console.log(queryText);
+    return db.query(queryText, [userId]);
+};
 
 module.exports = {
     addUser,
@@ -86,5 +93,6 @@ module.exports = {
     displaySignature,
     checkForSignature,
     loginUser,
-    checkforUser
+    checkforUser,
+    getUserData
 };

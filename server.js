@@ -225,8 +225,14 @@ app.post("/profile", function (req, res){
 app.get("/petition", function (req, res){
     //check for if user is logged in
     if (req.session.userId) {
-        res.render("petition", {
-            layout: "main"
+        dbQuery.getUserData(req.session.userId).then((result)=>{
+            res.render("petition", {
+                layout: "main",
+                first: result.rows[0].first,
+                last: result.rows[0].last,
+            });
+        }).catch((err)=>{
+            console.log(err);
         });
     }
     else {
