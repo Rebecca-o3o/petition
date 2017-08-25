@@ -80,7 +80,7 @@ var getUserData = function(userId){
     FROM users \
     LEFT OUTER JOIN user_profiles \
     ON users.id = user_profiles.user_id WHERE users.id=$1";
-    console.log(queryText);
+    // console.log(queryText);
     return db.query(queryText, [userId]);
 };
 

@@ -341,8 +341,19 @@ app.get("/signers", function (req, res){
 
 app.get("/profile/edit", function (req, res){
     if (req.session.userId) {
-        res.render("editProfile", {
-            layout: "main"
+
+        dbQuery.getUserData(req.session.userId).then((result)=>{
+            res.render("editProfile", {
+                layout: "main",
+                first: result.rows[0].first,
+                last: result.rows[0].last,
+                email: result.rows[0].email,
+                age: result.rows[0].age,
+                city: result.rows[0].city,
+                homepage: result.rows[0].homepage
+            });
+        }).catch((err)=>{
+            console.log(err);
         });
     }
     else {
