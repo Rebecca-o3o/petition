@@ -46,11 +46,11 @@ app.use(bodyParser.urlencoded({
 }));
 
 //routes
-app.get("/video", function (req, res){
-    res.render("register", {
-        layout: "video"
-    });
-});
+// app.get("/video", function (req, res){
+//     res.render("register", {
+//         layout: "video"
+//     });
+// });
 
 app.get("/", function (req, res){
     // check if user is logged in
@@ -65,7 +65,7 @@ app.get("/", function (req, res){
 
 app.get("/register", function (req, res){
     res.render("register", {
-        layout: "main"
+        layout: "video"
     });
 });
 
@@ -74,7 +74,7 @@ app.post("/register", function (req, res){
     //show error message if inputs empty
     if (!req.body.first && !req.body.last && !req.body.email && !req.body.password){
         res.render("register", {
-            layout: "main",
+            layout: "video",
             inputError: true
         });
     }
@@ -87,7 +87,7 @@ app.post("/register", function (req, res){
         }).catch((err)=>{
             console.log(err);
             res.render("register", {
-                layout: "main",
+                layout: "video",
                 inputError: true
             });
         });
@@ -96,7 +96,7 @@ app.post("/register", function (req, res){
 
 app.get("/login", function (req, res){
     res.render("login", {
-        layout: "main"
+        layout: "video"
     });
 });
 
@@ -121,7 +121,7 @@ app.post("/login", function (req, res) {
         else {
             // console.log("passwords dont match");
             res.render("login", {
-                layout: "main",
+                layout: "video",
                 inputError: true
             });
         }
