@@ -15,9 +15,10 @@ h1 {
     text-transform: uppercase;
 }
 
-section {
+p {
     padding: 20px 10px;
 }
+
 div {
     text-align: left;
 }
@@ -28,8 +29,32 @@ img {
     box-shadow: 2px 2px 5px grey;
 }
 
-label {
+form {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form ul {
+    padding: 20px;
+    border: 2px dotted DarkSeaGreen;
+}
+
+form li {
+    background-color: DarkSeaGreen;
+    padding: 5px;
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+}
+
+form label {
     font-size: 12px;
+}
+
+form button {
+    margin: 20px 0px;
+    margin-buttom: 0px;
 }
 
 canvas, input {
@@ -40,10 +65,11 @@ canvas, input {
 
 input {
     height: 25px;
-    width: 150px;
+    width: 200px;
 }
 
 button {
+    margin: 20px;
     height: 40px;
     width: 400px;
     border-radius: 25px;
@@ -53,6 +79,11 @@ button {
     color: FloralWhite;
 }
 
+li {
+    padding: 5px;
+    list-style-type: none;
+}
+
 .required {
     color: red;
 }
@@ -60,10 +91,6 @@ button {
 .name-input {
     display: inline;
 }
-
-/*.register-form {
-    display: block;
-}*/
 
 #canv {
     cursor: url(./pencil.cur), auto;
