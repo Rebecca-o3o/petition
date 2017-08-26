@@ -88,9 +88,10 @@ li {
     color: red;
 }
 
-.name-input {
+/*.name-input input{
     display: inline;
-}
+    width: 150px;
+}*/
 
 #canv {
     cursor: url(./pencil.cur), auto;

@@ -7,14 +7,17 @@
 {{/if}}
 
 <form action="/petition" method="post">
-    <section>
-        <label>First Name</label>
-        <input type="text" name="first" value="{{first}}">
+    <ul>
+        <li>
+            <label>First Name</label>
+            <input type="text" name="first" value="{{first}}">
+        </li>
+        <li>
+            <label>Last Name</label>
+            <input type="text" name="last" value="{{last}}">
+        </li>
+    </ul>
 
-        <label>Last Name</label>
-        <input type="text" name="last" value="{{last}}">
-
-    </section>
 
     <section>
         <label>Sign here<span class="required">*</span>
