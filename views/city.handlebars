@@ -1,0 +1,22 @@
+{{> logout}}
+{{> weheartshrimps}}
+
+<section>
+    <p>We the citizens of {{city}} undersigned to rescue shrimps from ending in shrimp-cocktails!</p>
+</section>
+
+<ul>
+    {{#each signers}}
+        <li>
+            {{#if homepage}}
+                <a href="http://{{homepage}}" target="_blank">{{first}} {{last}}</a>
+            {{else}}
+                {{first}} {{last}}
+            {{/if}}
+
+            {{#if age}}
+               ({{age}})
+            {{/if}}
+        </li>
+    {{/each}}
+</ul>

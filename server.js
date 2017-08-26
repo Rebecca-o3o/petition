@@ -361,6 +361,25 @@ app.get("/profile/edit", function (req, res){
     }
 });
 
+app.get("/signers/:city", function (req, res){
+    console.log(req.params.city);
+    if (req.session.userId) {
+        dbQuery.getCities(req.params.city).then((result)=>{
+            console.log(result.rows);
+            res.render("city", {
+                layout: "main",
+                signers: result.rows,
+                city: req.params.city
+            });
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
+});
+
 app.post("/profile/edit", function (req, res) {
     res.redirect("/thanks");
 });

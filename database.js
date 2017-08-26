@@ -84,6 +84,15 @@ var getUserData = function(userId){
     return db.query(queryText, [userId]);
 };
 
+var getCities = function(city){
+    const queryText = "SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.homepage \
+    FROM users INNER JOIN signers ON users.id = signers.user_id \
+    LEFT OUTER JOIN user_profiles ON users.id = user_profiles.user_id\
+    WHERE user_profiles.city =$1";
+    console.log(queryText);
+    return db.query(queryText, [city]);
+};
+
 module.exports = {
     addUser,
     addUserProfile,
@@ -94,5 +103,6 @@ module.exports = {
     checkForSignature,
     loginUser,
     checkforUser,
-    getUserData
+    getUserData,
+    getCities
 };
