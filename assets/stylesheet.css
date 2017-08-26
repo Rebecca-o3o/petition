@@ -6,6 +6,11 @@
     font-family: Verdana, sans-serif;
 }
 
+*::-webkit-media-controls-start-playback-button {
+  display: none!important;
+  -webkit-appearance: none;
+}
+
 body {
     background-color: MediumSeaGreen;
 }
