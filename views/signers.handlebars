@@ -5,6 +5,10 @@
     <p>We undersigned to rescue shrimps from ending in shrimp-cocktails!</p>
 </section>
 
+{{#if inputError}}
+{{> error}}
+{{/if}}
+
 <ul>
     {{#each signers}}
         <li>

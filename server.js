@@ -86,7 +86,10 @@ app.post("/register", function (req, res){
             res.redirect("/profile");
         }).catch((err)=>{
             console.log(err);
-            res.send("Could not add user to users");
+            res.render("register", {
+                layout: "main",
+                inputError: true
+            });
         });
     }
 });
@@ -114,41 +117,6 @@ app.post("/login", function (req, res) {
             }).catch((err)=>{
                 console.log(err);
             });
-
-
-            // check if already signed
-            // dbQuery.displaySignature(req.session.userId).then((result)=>{
-            //     console.log("ABOUT TO CHECK FOR SIGNATURE");
-            //     if (result) {
-            //         res.redirect("/thanks");
-            //     }
-            //     if (!result) {
-            //         res.redirect("/petition");
-            //     }
-            //     else {
-            //         res.render("login", {
-            //             layout: "main",
-            //             inputError: true
-            //         });
-            //     }
-            // }).catch((err)=>{
-            //     console.log(err);
-            // });
-
-
-            //another way to check for signed
-            // dbQuery.checkForSignature(req.session.userId).then((result)=>{
-            //     console.log(req.session.userId);
-            //     console.log("ABOUT TO CHECK FOR SIGNATURE - RESULT:", result);
-            //     if (req.session.userId === result) {
-            //         // signed - redirect to thank you
-            //         // console.log("USER HAS SIGNED ALREADY - redirect to thank you");
-            //         res.redirect("/thanks");
-            //     }
-            //     else {
-            //         // not signed - redirect to petition
-            //         res.redirect("/petition");
-            //     }
         }
         else {
             // console.log("passwords dont match");
@@ -259,7 +227,10 @@ app.post("/petition", function (req, res){
             res.redirect("/thanks");
         }).catch((err)=>{
             console.log(err);
-            res.send("Could not add signature to signers");
+            res.render("petition", {
+                layout: "main",
+                inputError: true
+            });
         });
 
     }
@@ -281,7 +252,10 @@ app.get("/thanks", function (req, res){
         }
     }).catch((err)=>{
         console.log(err);
-        res.send("Couldn't load signature");
+        res.render("thanks", {
+            layout: "main",
+            inputError: true
+        });
     });
 
     // dbQuery.amountOfSigners().then((result)=>{
@@ -320,7 +294,10 @@ app.get("/signers", function (req, res){
                     });
                 }).catch(function(err){
                     console.log(err);
-                    res.send("Couldn't load list of signers");
+                    res.render("signers", {
+                        layout: "main",
+                        inputError: true
+                    });
                 });
 
             }

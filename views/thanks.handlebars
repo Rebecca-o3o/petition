@@ -7,6 +7,10 @@
 </section>
 
 {{> displSignature}}
+{{#if inputError}}
+{{> error}}
+{{/if}}
+
 
 <a href="/signers">See all {{num}} signers</a>
 <a href="/profile/edit">Edit your profile</a>

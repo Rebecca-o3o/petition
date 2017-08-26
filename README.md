@@ -1,5 +1,5 @@
 # Petition
-Users can sign a petition to save shrimps 🦐  at https://agile-taiga-53076.herokuapp.com
+Users can sign a petition to save shrimps 🦐 at https://agile-taiga-53076.herokuapp.com
 
 ## Features
 - style on canvas
@@ -35,7 +35,7 @@ Users can sign a petition to save shrimps 🦐  at https://agile-taiga-53076.her
 - [x] profile page
 
 - [ ] hash password
-- [ ] login features
+- [x] login features
 
 ### Optional
 - store ```$('#canv')toDataURL();``` in different color
@@ -44,11 +44,6 @@ Users can sign a petition to save shrimps 🦐  at https://agile-taiga-53076.her
 - show timestamp
 - error message when age not a number
 - error message when login not correctly (user not found pleas register / wrong pw)
-- user comments
 
 ### Known Bugs
-- canvas.js public
-- signature can be empty
 - user can sign twice within same session
-- display thank you page correctly after profile
-- login does't work yet
