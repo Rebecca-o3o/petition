@@ -1,5 +1,5 @@
 (function() {
-
+    var hasSigned;
     var pos = { x: 0, y: 0 };
     var mouseDownStatus = false;
 
@@ -35,6 +35,7 @@
     $('#canv').mousemove(setPosition, function(e){
         if (mouseDownStatus) {
             draw(e);
+            hasSigned = true;
         }
     });
 
@@ -44,10 +45,16 @@
 
     //store signature image data in hidden input on submit click:
     var storeSignature = function(){
-        var dataURL = $('#canv')[0].toDataURL();
-        // console.log(dataURL);
-        $('#sig-inpt').val(dataURL);
-        // console.log($('#sig-inpt'));
+        if (hasSigned) {
+            var dataURL = $('#canv')[0].toDataURL();
+            // console.log(dataURL);
+            $('#sig-inpt').val(dataURL);
+            // console.log($('#sig-inpt'));
+        }
+        else {
+            alert("Please sign before submitting!");
+        }
+
     };
 
     $('#submit-btn').on("click", function(){
