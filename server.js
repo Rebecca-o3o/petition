@@ -306,7 +306,7 @@ app.get("/signers", function (req, res){
                 // console.log("redis signers null data is:" + data);
                 //respond with promise from query
                 dbQuery.listSigners().then((result)=>{
-                    console.log(result.rows);
+                    // console.log(result.rows);
                     // cache result.rows in redis and render page with pg result.rows
                     client.setex('signers', 60, JSON.stringify(result.rows), function(err){
                         if (err){
@@ -359,6 +359,10 @@ app.get("/profile/edit", function (req, res){
     else {
         res.redirect("/login");
     }
+});
+
+app.post("/profile/edit", function (req, res) {
+    res.redirect("/thanks");
 });
 
 app.post("/logout", function (req, res){
