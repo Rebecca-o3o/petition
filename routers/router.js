@@ -19,10 +19,10 @@ client.on('error', function(err) {
 });
 
 
-// redis sessions:
-var session = require('express-session'),
-    Store = require('connect-redis')(session);
-const app = express();
+// // redis sessions:
+// var session = require('express-session'),
+//     Store = require('connect-redis')(session);
+// const app = express();
 
 // var store = {};
 // if(process.env.REDIS_URL){
@@ -39,17 +39,17 @@ const app = express();
 
 // app.use(cookieParser());
 
-app.use(session({
-    store: new Store({
-        url: process.env.REDIS_URL
-        // ttl: 3600, //time to live
-        // host: host,
-        // port: 6379
-    }),
-    resave: true,
-    saveUninitialized: true,
-    secret: 'my super fun secret'
-}));
+// app.use(session({
+//     store: new Store({
+//         url: process.env.REDIS_URL
+//         // ttl: 3600, //time to live
+//         // host: host,
+//         // port: 6379
+//     }),
+//     resave: true,
+//     saveUninitialized: true,
+//     secret: 'my super fun secret'
+// }));
 
 router.use(require('body-parser').urlencoded({
     extended: false
@@ -306,7 +306,7 @@ router.get("/signers", function (req, res){
                 dbQuery.listSigners().then((result)=>{
                     // console.log(result.rows);
                     // cache result.rows in redis and render page with pg result.rows
-                    client.setex('signers', JSON.stringify(result.rows), function(err, data){
+                    client.setex('signers', 60, JSON.stringify(result.rows), function(err){
                         if (err){
                             return console.log(err);
                         }

@@ -7,6 +7,9 @@ const hb = require('express-handlebars');
 const cookieSession = require('cookie-session');
 const redis = require('redis');
 
+var session = require('express-session'),
+    Store = require('connect-redis')(session);
+
 // redis client
 var client = redis.createClient({
     host: (process.env.REDIS_URL || 'localhost'),
@@ -43,6 +46,21 @@ app.use(cookieSession({
 //middleware to use request bodies containing values from user inputs
 app.use(bodyParser.urlencoded({
     extended: false
+}));
+
+// app.use(cookieParser());
+
+//express-session
+app.use(session({
+    store: new Store({
+        url: process.env.REDIS_URL
+        // ttl: 3600, //time to live
+        // host: host,
+        // port: 6379
+    }),
+    resave: true,
+    saveUninitialized: true,
+    secret: 'my super fun secret'
 }));
 
 //routes
