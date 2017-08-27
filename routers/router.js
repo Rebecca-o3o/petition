@@ -17,25 +17,34 @@ var client = redis.createClient({
 client.on('error', function(err) {
     console.log(err);
 });
-//
-//
-// var session = require('express-session'),
-//     Store = require('connect-redis')(session);
-//
-//
-// var store = {};
-// if(process.env.REDIS_URL){
-//     store = {
-//         url: process.env.REDIS_URL
-//     };
-// } else {
-//     store = {
-//         ttl: 3600, //time to live
-//         host: (process.env.REDIS_URL || 'localhost'),
-//         port: 6379
-//     };
-// }
 
+
+// redis sessions:
+var session = require('express-session'),
+    Store = require('connect-redis')(session);
+const app = express();
+
+var store = {};
+if(process.env.REDIS_URL){
+    store = {
+        url: process.env.REDIS_URL
+    };
+} else {
+    store = {
+        ttl: 3600, //time to live
+        host: 'localhost',
+        port: 6379
+    };
+}
+
+// app.use(cookieParser());
+
+app.use(session({
+    store: new Store(store),
+    resave: true,
+    saveUninitialized: true,
+    secret: 'my super fun secret'
+}));
 
 router.use(require('body-parser').urlencoded({
     extended: false
@@ -397,8 +406,7 @@ router.post("/profile/edit", function (req, res) {
 router.post("/logout", function (req, res){
     req.session.userId = null;
     console.log("LOGOUT", req.session.userId);
-    req.session.destroy();
-    res.redirect("/login");
+    req.session.destroy(res.redirect("/login"));
 });
 
 
