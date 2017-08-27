@@ -24,23 +24,28 @@ var session = require('express-session'),
     Store = require('connect-redis')(session);
 const app = express();
 
-var store = {};
-if(process.env.REDIS_URL){
-    store = {
-        url: process.env.REDIS_URL
-    };
-} else {
-    store = {
-        ttl: 3600, //time to live
-        host: 'localhost',
-        port: 6379
-    };
-}
+// var store = {};
+// if(process.env.REDIS_URL){
+//     store = {
+//         url: process.env.REDIS_URL
+//     };
+// } else {
+//     store = {
+//         ttl: 3600, //time to live
+//         host: 'localhost',
+//         port: 6379
+//     };
+// }
 
 // app.use(cookieParser());
 
 app.use(session({
-    store: new Store(store),
+    store: new Store({
+        url: process.env.REDIS_URL
+        // ttl: 3600, //time to live
+        // host: host,
+        // port: 6379
+    }),
     resave: true,
     saveUninitialized: true,
     secret: 'my super fun secret'
