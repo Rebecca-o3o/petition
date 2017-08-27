@@ -330,6 +330,32 @@ router.get("/signers", function (req, res){
     }
 });
 
+router.get("/profile/view", function (req, res){
+    if (req.session.userId) {
+
+        dbQuery.getUserData(req.session.userId).then((result)=>{
+            res.render("editProfile", {
+                layout: "main",
+                first: result.rows[0].first,
+                last: result.rows[0].last,
+                email: result.rows[0].email,
+                age: result.rows[0].age,
+                city: result.rows[0].city,
+                homepage: result.rows[0].homepage
+            });
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
+    else {
+        res.redirect("/login");
+    }
+});
+
+router.post("/profile/view", function (req, res){
+    res.redirect("/thanks");
+});
+
 router.get("/profile/edit", function (req, res){
     if (req.session.userId) {
 
