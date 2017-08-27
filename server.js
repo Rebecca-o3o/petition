@@ -266,6 +266,14 @@ app.get("/thanks", function (req, res){
     // });
 });
 
+app.get("/delete", function (req, res) {
+    dbQuery.deleteSignature(req.session.userId).then(()=>{
+        res.redirect("/petition");
+    }).catch((err)=>{
+        console.log(err);
+    });
+});
+
 app.get("/signers", function (req, res){
 
     //check for if user is logged in

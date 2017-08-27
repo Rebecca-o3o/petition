@@ -93,6 +93,17 @@ var getCities = function(city){
     return db.query(queryText, [city]);
 };
 
+// var updateUserAndProfile = function(userData){
+//     const queryText = "";
+//     console.log(queryText);
+//     return db.query (queryText, [userData]);
+// };
+
+var deleteSignature = function(userId){
+    const queryText = "DELETE FROM signers WHERE user_id=$1";
+    return db.query(queryText, [userId]);
+};
+
 module.exports = {
     addUser,
     addUserProfile,
@@ -104,5 +115,7 @@ module.exports = {
     loginUser,
     checkforUser,
     getUserData,
-    getCities
+    getCities,
+    // updateUserAndProfile,
+    deleteSignature
 };
