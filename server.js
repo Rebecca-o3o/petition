@@ -346,6 +346,37 @@ app.get("/profile/edit", function (req, res){
     }
 });
 
+
+// app.post("/profile/edit", function (req, res){
+//
+//     // var userData = [
+//     //     req.body.first,
+//     //     req.body.last,
+//     //     req.body.email,
+//     //     req.body.password];
+//
+//     // var userProfile = [
+//     //     req.body.age,
+//     //     req.body.city,
+//     //     req.body.homepage];
+//
+//     // console.log ("USER DATA:" + userData);
+//     // console.log ("USER Profile:" + userProfile);
+//     console.log ("USER ID:" + req.session.userId);
+//
+//     Promise.all([
+//         dbQuery.updateUser(req.body.first, req.body.last, req.body.email, req.body.password, req.session.userId),
+//         dbQuery.updateProfile(req.body.age, req.body.city, req.body.homepage, req.session.userId)
+//     ]).then((result)=>{
+//         console.log(result);
+//         res.redirect("/thanks");
+//     }).catch((err)=>{
+//         console.log(err);
+//         res.send("user data was not updated");
+//     });
+// });
+//
+
 app.get("/signers/:city", function (req, res){
     console.log(req.params.city);
     if (req.session.userId) {

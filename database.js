@@ -93,10 +93,28 @@ var getCities = function(city){
     return db.query(queryText, [city]);
 };
 
-// var updateUserAndProfile = function(userData){
-//     const queryText = "";
-//     console.log(queryText);
-//     return db.query (queryText, [userData]);
+// var updateUser = function (first, last, email, password, userId) {
+//     const queryText = "UPDATE users SET first=$1, last=$2, email=$3, password=$4 WHERE id=$5 RETURNING id";
+//     console.log("ABOUT TO UPDATE USER:", queryText);
+//     return db.query (queryText, [userId]);
+// };
+//
+// var updateProfile = function (age, city, homepage, userId){
+//     var queryText;
+//
+//     db.query("SELECT user_id FROM user_profiles WHERE user_id=$4", (err, result) => {
+//         // if userId = exist in profile table
+//         if (result) {
+//             // return(data);
+//             queryText = "UPDATE user_profiles SET age=$1, city=$2, homepage=$3 WHERE user_id=$3";
+//             console.log("ABOUT TO UPDATE PROFILE:", queryText);
+//         } else {
+//         //    reject("error at first query");
+//             queryText = "INSERT INTO user_profiles (age, city, homepage, user_id) VALUES ($1, $2, $3, (SELECT id FROM users WHERE id=$4)) RETURNING user_id";
+//             console.log("ABOUT TO INSERT PROFILE:", queryText);
+//         }
+//     });
+//     return db.query (queryText, [userId]);
 // };
 
 var deleteSignature = function(userId){
@@ -116,6 +134,7 @@ module.exports = {
     checkforUser,
     getUserData,
     getCities,
-    // updateUserAndProfile,
+    // updateUser,
+    // updateProfile,
     deleteSignature
 };
