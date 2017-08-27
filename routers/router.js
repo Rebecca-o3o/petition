@@ -6,14 +6,12 @@
 var express = require('express'),
     router = express.Router();
 
-const redis = require('redis');
-
-// redis client:
-var client = redis.createClient({
-    host: (process.env.REDIS_URL || 'localhost'),
-    port: 6379
-});
-
+var redis = require('redis');
+var client = redis.createClient(process.env.REDIS_URL ||
+    {
+        host: 'localhost',
+        port: 6379
+    });
 client.on('error', function(err) {
     console.log(err);
 });
@@ -51,6 +49,7 @@ client.on('error', function(err) {
 //     secret: 'my super fun secret'
 // }));
 
+//middleware to use request bodies containing values from user inputs
 router.use(require('body-parser').urlencoded({
     extended: false
 }));
@@ -410,9 +409,10 @@ router.post("/profile/edit", function (req, res) {
 router.post("/logout", function (req, res){
     req.session.userId = null;
     console.log("LOGOUT", req.session.userId);
-    req.session.destroy(res.redirect("/login"));
+    res.redirect("/login");
+    // req.session.destroy(res.redirect("/login"));
 });
 
 
-//export your router
+//export router
 module.exports = router;
