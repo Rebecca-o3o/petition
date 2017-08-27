@@ -286,14 +286,22 @@ router.get("/signers", function (req, res){
             if (err) {
                 return console.log(err);
             }
+            //cache hit
+            if (data){
+                // console.log("redis data is:" + JSON.parse(data));
+                res.render("signers", {
+                    layout: "main",
+                    signers: JSON.parse(data)
+                });
+            }
             // cache miss - so do query and add result to redis
-            if (!data){
+            else {
                 // console.log("redis signers null data is:" + data);
                 //respond with promise from query
                 dbQuery.listSigners().then((result)=>{
                     // console.log(result.rows);
                     // cache result.rows in redis and render page with pg result.rows
-                    client.setex('signers', 60, JSON.stringify(result.rows), function(err){
+                    client.setex('signers', JSON.stringify(result.rows), function(err, data){
                         if (err){
                             return console.log(err);
                         }
@@ -305,19 +313,10 @@ router.get("/signers", function (req, res){
                     });
                 }).catch(function(err){
                     console.log(err);
-                    res.render("signers", {
-                        layout: "main",
-                        inputError: true
-                    });
-                });
-
-            }
-            //cache hit
-            if (data){
-                // console.log("redis data is:" + JSON.parse(data));
-                res.render("signers", {
-                    layout: "main",
-                    signers: JSON.parse(data)
+                    // res.render("signers", {
+                    //     layout: "main",
+                    //     inputError: true
+                    // });
                 });
             }
         });
