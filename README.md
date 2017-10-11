@@ -1,49 +1,49 @@
 # Petition
-Users can sign a petition to save shrimps 🦐 at https://agile-taiga-53076.herokuapp.com
 
-## Features
-- style on canvas
-- shrimp video
+## Overview
+Users can sign a petition to save shrimps. After signing all signers will be listed with provided optional user profile information.
+Hosted on [Heroku](https://agile-taiga-53076.herokuapp.com)
 
-## TODO
-- [x] database setup 'signers'
-- [x] database signers fill on POST
+## Technologies
+- Express-Handlebars
+- Node.js
+- Express.js
+- PostgreSQL
+- Redis
+- AWS S3 for storing canvas-signature-image
 
-- [x] database setup 'users'
-- [x] database users fill on POST
 
-- [x] database setup 'profiles'
-- [x] database profile fill on POST
+## Details
 
-- [x] set cookie
-- [x] store signature
-- [x] display signature
-- [x] error message on submit without required fields
+### Login & Registration
+The landingpage shows a video of my pet shrimp as background (deactivated on mobile), on which users can register or login.
 
-- [x] screen 1 - petition page
-- [x] screen 1 - canvas
-- [x] screen 1 - canvas styles
+<img src="screenshot-registration.png" alt="registration page">
 
-- [x] screen 2 - thank you page
-- [x] screen 2 - link to signers
 
-- [x] screen 3 - signers page
-- [x] screen 3 - display signers list
+### Sign petition
+After registration (or upon login without having signed previously) users are asked to support the petition with signing on a canvas. The signature will be stored on AWS S3 and be displayed to the user on another page.
 
-- [x] register page
-- [x] login page
-- [x] profile page
+<img src="screenshot-sign.png" alt="sign petition page">
 
-- [ ] hash password
-- [x] login features
 
-### Optional
-- store ```$('#canv')toDataURL();``` in different color
-- responsive designs
-- [ ] include number of signers
-- show timestamp
-- error message when age not a number
-- error message when login not correctly (user not found pleas register / wrong pw)
+### List of Signers
+After signing the user will be directed to a thank you page from which he can navigate to the list of all signers.
+
+<img src="screenshot-list-of-signers.png" alt="sign petition page">
+
+Via click on a city next to the signers, the user gets directed to a list of only signers of that city.
+
 
 ### Known Bugs
 - user can sign twice within same session
+- passwords stored un-hashed
+
+
+### Planned Features
+- store ```$('#canv')toDataURL();``` in different color
+- include number of signers
+- show timestamp
+- error message when age not a number
+- error message when login data incorrect (user not found please register / wrong pw)
+- use canvas touch events
